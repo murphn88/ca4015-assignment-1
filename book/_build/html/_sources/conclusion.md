@@ -84,15 +84,7 @@ render properly.
 For example, if the references for your book are stored in `references.bib`,
 then the bibliography is inserted with:
 
-````
-```{bibliography}
-```
-````
 
-Resulting in a rendered bibliography that looks like:
-
-```{bibliography}
-```
 
 
 ### Executing code in your markdown files

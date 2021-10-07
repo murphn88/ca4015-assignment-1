@@ -213,22 +213,22 @@
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#using-a-directive">
-     3.2.1. Using a directive
+     Using a directive
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#using-a-role">
-     3.2.2. Using a role
+     Using a role
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#adding-a-citation">
-     3.2.3. Adding a citation
+     Adding a citation
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#executing-code-in-your-markdown-files">
-     3.2.4. Executing code in your markdown files
+     Executing code in your markdown files
     </a>
    </li>
   </ul>
@@ -265,7 +265,7 @@ serve a similar purpose, but <strong>roles are written in one line</strong>, whe
 and what they do with those inputs depends on the specific role or directive
 that is being called.</p>
 <div class="section" id="using-a-directive">
-<h3><span class="section-number">3.2.1. </span>Using a directive<a class="headerlink" href="#using-a-directive" title="Permalink to this headline">¶</a></h3>
+<h3>Using a directive<a class="headerlink" href="#using-a-directive" title="Permalink to this headline">¶</a></h3>
 <p>At its simplest, you can insert a directive into your book’s content like so:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>```{mydirectivename}
 My directive content
@@ -291,7 +291,7 @@ Here is a note
 <a class="reference external" href="https://myst-parser.readthedocs.io/">MyST documentation</a>.</p>
 </div>
 <div class="section" id="using-a-role">
-<h3><span class="section-number">3.2.2. </span>Using a role<a class="headerlink" href="#using-a-role" title="Permalink to this headline">¶</a></h3>
+<h3>Using a role<a class="headerlink" href="#using-a-role" title="Permalink to this headline">¶</a></h3>
 <p>Roles are very similar to directives, but they are less-complex and written
 entirely on one line. You can insert a role into your book’s content with
 this pattern:</p>
@@ -306,7 +306,7 @@ role syntax <code class="docutils literal notranslate"><span class="pre">{doc}`i
 <a class="reference external" href="https://myst-parser.readthedocs.io/">MyST documentation</a>.</p>
 </div>
 <div class="section" id="adding-a-citation">
-<h3><span class="section-number">3.2.3. </span>Adding a citation<a class="headerlink" href="#adding-a-citation" title="Permalink to this headline">¶</a></h3>
+<h3>Adding a citation<a class="headerlink" href="#adding-a-citation" title="Permalink to this headline">¶</a></h3>
 <p>You can also cite references that are stored in a <code class="docutils literal notranslate"><span class="pre">bibtex</span></code> file. For example,
 the following syntax: <code class="docutils literal notranslate"><span class="pre">{cite}`holdgraf_evidence_2014`</span></code> will render like
 this: <span id="id1">[]</span>.</p>
@@ -315,56 +315,9 @@ The <code class="docutils literal notranslate"><span class="pre">{bibliography}<
 render properly.
 For example, if the references for your book are stored in <code class="docutils literal notranslate"><span class="pre">references.bib</span></code>,
 then the bibliography is inserted with:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>```{bibliography}
-```
-</pre></div>
-</div>
-<p>Resulting in a rendered bibliography that looks like:</p>
-<p id="id2"><dl class="citation">
-<dt class="label" id="id3"><span class="brackets">BDDA94</span></dt>
-<dd><p>Antoine Bechara, Antonio R. Damasio, Hanna Damasio, and Steven W. Anderson. Insensitivity to future consequences following damage to human prefrontal cortex. <em>Cognition</em>, 50(1-3):7–15, 1994. <a class="reference external" href="https://doi.org/10.1016/0010-0277(94)90018-3">doi:10.1016/0010-0277(94)90018-3</a>.</p>
-</dd>
-<dt class="label" id="id5"><span class="brackets">BD02</span></dt>
-<dd><p>Antoine Bechara and Hanna Damasio. Decision-making and addiction (part i): impaired activation of somatic states in substance dependent individuals when pondering decisions with negative future consequences. <em>Neuropsychologia</em>, 40(10):1675–1689, 2002. <a class="reference external" href="https://doi.org/10.1016/s0028-3932(02)00015-5">doi:10.1016/s0028-3932(02)00015-5</a>.</p>
-</dd>
-<dt class="label" id="id4"><span class="brackets">BRGB07</span></dt>
-<dd><p>Matthias Brand, Emily C. Recknor, Fabian Grabenhorst, and Antoine Bechara. Decisions under ambiguity and decisions under risk: correlations with executive functions and comparisons of two different gambling tasks with implicit and explicit rules. <em>Journal of Clinical and Experimental Neuropsychology</em>, 29(1):86–99, 2007. <a class="reference external" href="https://doi.org/10.1080/13803390500507196">doi:10.1080/13803390500507196</a>.</p>
-</dd>
-<dt class="label" id="id6"><span class="brackets">FQA+10</span></dt>
-<dd><p>Daniel J. Fridberg, Sarah Queller, Woo-Young Ahn, Woojae Kim, Anthony J. Bishara, Jerome R. Busemeyer, Linda Porrino, and Julie C. Stout. Cognitive mechanisms underlying risky decision-making in chronic cannabis users. <em>Journal of Mathematical Psychology</em>, 54(1):28–38, 2010. <a class="reference external" href="https://doi.org/10.1016/j.jmp.2009.10.002">doi:10.1016/j.jmp.2009.10.002</a>.</p>
-</dd>
-<dt class="label" id="id9"><span class="brackets">KLS+10</span></dt>
-<dd><p>Kimberly L. Kjome, Scott D. Lane, Joy M. Schmitz, Charles Green, Liangsuo Ma, Irshad Prasla, Alan C. Swann, and F. Gerard Moeller. Relationship between impulsivity and decision making in cocaine dependence. <em>Psychiatry Research</em>, 178(2):299–304, 2010. <a class="reference external" href="https://doi.org/10.1016/j.psychres.2009.11.024">doi:10.1016/j.psychres.2009.11.024</a>.</p>
-</dd>
-<dt class="label" id="id8"><span class="brackets">MM04</span></dt>
-<dd><p>T. V. Maia and J. L. Mcclelland. A reexamination of the evidence for the somatic marker hypothesis: what participants really know in the iowa gambling task. <em>Proceedings of the National Academy of Sciences</em>, 101(45):16075–16080, 2004. <a class="reference external" href="https://doi.org/10.1073/pnas.0406666101">doi:10.1073/pnas.0406666101</a>.</p>
-</dd>
-<dt class="label" id="id10"><span class="brackets">PFK+08</span></dt>
-<dd><p>Preethi Premkumar, Dominic Fannon, Elizabeth Kuipers, Andrew Simmons, Sophia Frangou, and Veena Kumari. Emotional decision-making and its dissociable components in schizophrenia and schizoaffective disorder: a behavioural and mri investigation. <em>Neuropsychologia</em>, 46(7):2002–2012, 2008. <a class="reference external" href="https://doi.org/10.1016/j.neuropsychologia.2008.01.022">doi:10.1016/j.neuropsychologia.2008.01.022</a>.</p>
-</dd>
-<dt class="label" id="id12"><span class="brackets">SWW11</span></dt>
-<dd><p>H Steingroever, R Wetzels, and E-J . Wagenmakers. Performance of healthy participants on the iowa gambling task: the impact of an alternative payoff scheme and presentation of only net outcomes. Unpublished raw data, 2011.</p>
-</dd>
-<dt class="label" id="id11"><span class="brackets">SPSLep</span></dt>
-<dd><p>Helen Steingroever, Thorsten Pachur, Martin Šmíra, and Michael D. Lee. Do intuitive and deliberate decision makers perform differently on the iowa gambling task? inprep.</p>
-</dd>
-<dt class="label" id="id7"><span class="brackets">SWW13</span></dt>
-<dd><p>Helen Steingroever, Ruud Wetzels, and Eric-Jan Wagenmakers. A comparison of reinforcement learning models for the iowa gambling task using parameter space partitioning. <em>The Journal of Problem Solving</em>, Apr 2013. URL: <a class="reference external" href="https://docs.lib.purdue.edu/jps/vol5/iss2/2">https://docs.lib.purdue.edu/jps/vol5/iss2/2</a>, <a class="reference external" href="https://doi.org/10.7771/1932-6246.1150">doi:10.7771/1932-6246.1150</a>.</p>
-</dd>
-<dt class="label" id="id13"><span class="brackets">WVTW10</span></dt>
-<dd><p>Ruud Wetzels, Joachim Vandekerckhove, Francis Tuerlinckx, and Eric-Jan Wagenmakers. Bayesian parameter estimation in the expectancy valence model of the iowa gambling task. <em>Journal of Mathematical Psychology</em>, 54(1):14–27, 2010. <a class="reference external" href="https://doi.org/10.1016/j.jmp.2008.12.001">doi:10.1016/j.jmp.2008.12.001</a>.</p>
-</dd>
-<dt class="label" id="id14"><span class="brackets">WBK+05</span></dt>
-<dd><p>Stacey Wood, Jerome Busemeyer, Andreas Koling, Cathy R. Cox, and Hasker Davis. Older adults as adaptive decision makers: evidence from the iowa gambling task. <em>Psychology and Aging</em>, 20(2):220–225, 2005. <a class="reference external" href="https://doi.org/10.1037/0882-7974.20.2.220">doi:10.1037/0882-7974.20.2.220</a>.</p>
-</dd>
-<dt class="label" id="id15"><span class="brackets">WPB13</span></dt>
-<dd><p>Darrell A. Worthy, Bo Pang, and Kaileigh A. Byrne. Decomposing the roles of perseveration and expected value representation in models of the iowa gambling task. <em>Frontiers in Psychology</em>, 2013. URL: <a class="reference external" href="http://journal.frontiersin.org/article/10.3389/fpsyg.2013.00640/abstract">http://journal.frontiersin.org/article/10.3389/fpsyg.2013.00640/abstract</a>, <a class="reference external" href="https://doi.org/10.3389/fpsyg.2013.00640">doi:10.3389/fpsyg.2013.00640</a>.</p>
-</dd>
-</dl>
-</p>
 </div>
 <div class="section" id="executing-code-in-your-markdown-files">
-<h3><span class="section-number">3.2.4. </span>Executing code in your markdown files<a class="headerlink" href="#executing-code-in-your-markdown-files" title="Permalink to this headline">¶</a></h3>
+<h3>Executing code in your markdown files<a class="headerlink" href="#executing-code-in-your-markdown-files" title="Permalink to this headline">¶</a></h3>
 <p>If you’d like to include computational content inside these markdown files,
 you can use MyST Markdown to define cells that will be executed when your
 book is built. Jupyter Book uses <em>jupytext</em> to do this.</p>

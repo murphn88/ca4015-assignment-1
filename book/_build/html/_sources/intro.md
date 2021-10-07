@@ -1,6 +1,6 @@
 # Introduction
 
-## 1.1 Iowa Gambling Task Overview
+## Iowa Gambling Task Overview
 
 The Iowa Gambling Task (IGT), designed by {cite:t}`bechara_damasio_damasio_anderson_1994`, studies decision-making under uncertainty, in a context of punishment and reward. Originally physical playing cards were used, whereas nowadays, the IGT is primarily computer based. The IGT requires participants to repeatedly draw cards from four possible decks (A, B, C and D). Associated with each card picked is a monetary gain and/or loss. However, the expected values of the four decks differ, in that two of the decks (i.e. the good decks) yield lower immediate rewards but long-term overall gains, and two of the decks (i.e., the bad decks) yield higher immediate rewards but long-term overall loss. Additionally, the decks differ on two other features: the relative number of gains vs. losses (i.e., the gain frequency), and the relative number of net losses (i.e., the loss frequency). After every selection, participants receive feedback about how much money they’ve won and/or lost as a result of that selection. Participants start with a “loan” and are instructed to try to make a profit. 
 
@@ -14,7 +14,7 @@ name: igt-fig
 What a participant might see
 ```
 
-## 1.2 Procedures:
+## Procedures
 
 The analysis conducted in this paper (book/report?) uses data collected during 10 independent published studies. All participants were deemed healthy (i.e., no known neurological impairments) and performed a computerized version of the IGT. Depending on the study, participants completed 95, 100 or 150 trials. The payoff scheme used was not consistent between IGT studies, each study was based on one of the following payoff schemes:
 
@@ -37,10 +37,10 @@ A detailed description of the payoff schemes can be found here (include link?).
 :::
 
 
-## 1.3 Dataset Description
+## Dataset Description
 
 
-Table 1 describes the data collected from 517 participants across 10 studies. (Include link?)
+Table 1 describes the data collected from 517 participants across 10 studies. (Include link??)
 
 | Study | Number of Participants | Number of Trials | Payoff |
 | :- | :- | :- | :- |
@@ -57,7 +57,7 @@ Table 1 describes the data collected from 517 participants across 10 studies. (I
 
 ```{admonition} Caveat
 :class: warning
-something about how there’s probably difference in collection methods (in reuse potential section)
+mention how there’s probably difference in collection methods (in reuse potential section)
 ```
 
 
