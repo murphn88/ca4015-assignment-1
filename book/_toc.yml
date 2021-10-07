@@ -6,3 +6,8 @@ root: intro
 chapters:
 - file: markdown
 - file: notebooks
+- file: data_exploration
+- file: clustering
+- file: conclusion
+- file: bibliography
+
