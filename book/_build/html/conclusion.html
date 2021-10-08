@@ -213,22 +213,22 @@
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#using-a-directive">
-     Using a directive
+     3.2.1. Using a directive
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#using-a-role">
-     Using a role
+     3.2.2. Using a role
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#adding-a-citation">
-     Adding a citation
+     3.2.3. Adding a citation
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#executing-code-in-your-markdown-files">
-     Executing code in your markdown files
+     3.2.4. Executing code in your markdown files
     </a>
    </li>
   </ul>
@@ -265,7 +265,7 @@ serve a similar purpose, but <strong>roles are written in one line</strong>, whe
 and what they do with those inputs depends on the specific role or directive
 that is being called.</p>
 <div class="section" id="using-a-directive">
-<h3>Using a directive<a class="headerlink" href="#using-a-directive" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.2.1. </span>Using a directive<a class="headerlink" href="#using-a-directive" title="Permalink to this headline">¶</a></h3>
 <p>At its simplest, you can insert a directive into your book’s content like so:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>```{mydirectivename}
 My directive content
@@ -291,7 +291,7 @@ Here is a note
 <a class="reference external" href="https://myst-parser.readthedocs.io/">MyST documentation</a>.</p>
 </div>
 <div class="section" id="using-a-role">
-<h3>Using a role<a class="headerlink" href="#using-a-role" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.2.2. </span>Using a role<a class="headerlink" href="#using-a-role" title="Permalink to this headline">¶</a></h3>
 <p>Roles are very similar to directives, but they are less-complex and written
 entirely on one line. You can insert a role into your book’s content with
 this pattern:</p>
@@ -306,10 +306,9 @@ role syntax <code class="docutils literal notranslate"><span class="pre">{doc}`i
 <a class="reference external" href="https://myst-parser.readthedocs.io/">MyST documentation</a>.</p>
 </div>
 <div class="section" id="adding-a-citation">
-<h3>Adding a citation<a class="headerlink" href="#adding-a-citation" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.2.3. </span>Adding a citation<a class="headerlink" href="#adding-a-citation" title="Permalink to this headline">¶</a></h3>
 <p>You can also cite references that are stored in a <code class="docutils literal notranslate"><span class="pre">bibtex</span></code> file. For example,
-the following syntax: <code class="docutils literal notranslate"><span class="pre">{cite}`holdgraf_evidence_2014`</span></code> will render like
-this: <span id="id1">[]</span>.</p>
+the following syntax: <code class="docutils literal notranslate"><span class="pre">{cite}`holdgraf_evidence_2014`</span></code> will render like</p>
 <p>Moreover, you can insert a bibliography into your page with this syntax:
 The <code class="docutils literal notranslate"><span class="pre">{bibliography}</span></code> directive must be used for all the <code class="docutils literal notranslate"><span class="pre">{cite}</span></code> roles to
 render properly.
@@ -317,7 +316,7 @@ For example, if the references for your book are stored in <code class="docutils
 then the bibliography is inserted with:</p>
 </div>
 <div class="section" id="executing-code-in-your-markdown-files">
-<h3>Executing code in your markdown files<a class="headerlink" href="#executing-code-in-your-markdown-files" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.2.4. </span>Executing code in your markdown files<a class="headerlink" href="#executing-code-in-your-markdown-files" title="Permalink to this headline">¶</a></h3>
 <p>If you’d like to include computational content inside these markdown files,
 you can use MyST Markdown to define cells that will be executed when your
 book is built. Jupyter Book uses <em>jupytext</em> to do this.</p>

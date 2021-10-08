@@ -37,10 +37,12 @@ A detailed description of the payoff schemes can be found here (include link?).
 :::
 
 
-## Dataset Description
+## Data Source
+
+The data used in this analysis was compiled by {cite:t}`Steingroever_Fridberg_Horstmann_Kjome_Kumari_Lane_Maia_McClelland_Pachur_Premkumar`, and can be readily downloaded from [https://osf.io/8t7rm/](https://osf.io/8t7rm/) (at time of publishing 13/010/2021). It consists of data collected from 617 participants across 10 independent IGT studies. For each participant, each deck selection and the resulting win/loss has been captured.  
+An overview of the compiled studies can be seen in the below table.
 
 
-Table 1 describes the data collected from 517 participants across 10 studies. (Include link??)
 
 | Study | Number of Participants | Number of Trials | Payoff |
 | :- | :- | :- | :- |
@@ -57,7 +59,7 @@ Table 1 describes the data collected from 517 participants across 10 studies. (I
 
 ```{admonition} Caveat
 :class: warning
-mention how there’s probably difference in collection methods (in reuse potential section)
+As each of the studies were conducted in different environments, inconsistent factors such as compensation methods, incentives, and instructions received may have affected the performance of participants.
 ```
 
 
