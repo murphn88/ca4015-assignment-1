@@ -213,6 +213,24 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-libraries-read-in-data">
+   1.1. Import Libraries &amp; Read In Data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-cleaning-validation">
+   1.2. Data Cleaning &amp; Validation
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -223,6 +241,257 @@
                 
   <div class="section" id="data-exploration">
 <h1><span class="section-number">1. </span>Data Exploration<a class="headerlink" href="#data-exploration" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="import-libraries-read-in-data">
+<h2><span class="section-number">1.1. </span>Import Libraries &amp; Read In Data<a class="headerlink" href="#import-libraries-read-in-data" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pyreadr</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pyreadr</span><span class="o">.</span><span class="n">read_r</span><span class="p">(</span><span class="s1">&#39;../data/IGTdata.rdata&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Overview of dataset</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:12}</span><span class="s2">| </span><span class="si">{:57}</span><span class="s2">| </span><span class="si">{:30}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;DF NAME&#39;</span><span class="p">,</span><span class="s1">&#39;COLUMN NAMES&#39;</span><span class="p">,</span><span class="s1">&#39;ROW NAMES&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">110</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="n">column_names</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">columns</span><span class="p">[:</span><span class="mi">3</span><span class="p">]),</span> <span class="s1">&#39;,...,&#39;</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:])])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">column_names</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">row_names</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)]</span>
+    <span class="n">row_names</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row_names</span><span class="p">[:</span><span class="mi">2</span><span class="p">]),</span> <span class="s1">&#39;,...,&#39;</span><span class="p">,</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row_names</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:])])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:12}</span><span class="s2">| </span><span class="si">{:57}</span><span class="s2">| </span><span class="si">{:30}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">column_names</span><span class="p">,</span><span class="n">row_names</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DF NAME     | COLUMN NAMES                                             | ROW NAMES                     
+--------------------------------------------------------------------------------------------------------------
+choice_95   | Choice_1, Choice_2, Choice_3,...,Choice_94, Choice_95    | Subj_1, Subj_2,...,Subj_14, Subj_15
+wi_95       | Wins_1, Wins_2, Wins_3,...,Wins_94, Wins_95              | Subj_1, Subj_2,...,Subj_14, Subj_15
+lo_95       | Losses_1, Losses_2, Losses_3,...,Losses_94, Losses_95    | Subj_1, Subj_2,...,Subj_14, Subj_15
+index_95    | Subj, Study                                              | 0, 1,...,13, 14               
+choice_100  | Choice_1, Choice_2, Choice_3,...,Choice_99, Choice_100   | Subj_1, Subj_2,...,Subj_503, Subj_504
+wi_100      | Wins_1, Wins_2, Wins_3,...,Wins_99, Wins_100             | Subj_1, Subj_2,...,Subj_503, Subj_504
+lo_100      | Losses_1, Losses_2, Losses_3,...,Losses_99, Losses_100   | Subj_1, Subj_2,...,Subj_503, Subj_504
+index_100   | Subj, Study                                              | 0, 1,...,502, 503             
+choice_150  | Choice_1, Choice_2, Choice_3,...,Choice_149, Choice_150  | Subj_1, Subj_2,...,Subj_97, Subj_98
+wi_150      | Wins_1, Wins_2, Wins_3,...,Wins_149, Wins_150            | Subj_1, Subj_2,...,Subj_97, Subj_98
+lo_150      | Losses_1, Losses_2, Losses_3,...,Losses_149, Losses_150  | Subj_1, Subj_2,...,Subj_97, Subj_98
+index_150   | Subj, Study                                              | 0, 1,...,96, 97               
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>The studies are grouped by the number of trials (t) completed; 95, 100 or 150.</p></li>
+<li><p>For each group, there are 4 data frames, where each row correspnds to a subject (s):</p>
+<ul>
+<li><p>choice_t :</p>
+<ul>
+<li><p>Entries are either 1, 2, 3 or 4 which correspond to deck A, B, C and D, respectively.</p></li>
+<li><p>Dimensionality is s x t.</p></li>
+<li><p>The entry of the second row and third column indicates the choice made by the second subject on the third trial.</p></li>
+</ul>
+</li>
+<li><p>wi_t :</p>
+<ul>
+<li><p>Contains the win achieved as a result of each choice.</p></li>
+<li><p>Dimensionality is s x t.</p></li>
+<li><p>The entry of the second row and third column corresponds to the reward received by the second subject on third trial.</p></li>
+</ul>
+</li>
+<li><p>lo_t :</p>
+<ul>
+<li><p>Contains the loss incurred as a result of each choice.</p></li>
+<li><p>Dimensionality is s x t.</p></li>
+<li><p>The entry of the second row and third column corresponds to the loss incurred by the second subject on third trial.</p></li>
+</ul>
+</li>
+<li><p>index_t :</p>
+<ul>
+<li><p>Entries are the name of the first author of the study that reports the data name of the first author of the study that reports the data of the corresponding participant.</p></li>
+<li><p>Dimensionality is s x 2.</p></li>
+<li><p>The entry of the second row indicates which study the second subject participated in.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="data-cleaning-validation">
+<h2><span class="section-number">1.2. </span>Data Cleaning &amp; Validation<a class="headerlink" href="#data-cleaning-validation" title="Permalink to this headline">¶</a></h2>
+<p><strong>Update index_t row names for confirmity.</strong><br>
+All other data frames have consistent row names of the form Subj_1, Subj_2, Subj_3 etc.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;index&#39;</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Subj&#39;</span><span class="p">])</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Subj_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;index_150&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Study</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Subj_1</th>
+      <td>Steingroever2011</td>
+    </tr>
+    <tr>
+      <th>Subj_2</th>
+      <td>Steingroever2011</td>
+    </tr>
+    <tr>
+      <th>Subj_3</th>
+      <td>Steingroever2011</td>
+    </tr>
+    <tr>
+      <th>Subj_4</th>
+      <td>Steingroever2011</td>
+    </tr>
+    <tr>
+      <th>Subj_5</th>
+      <td>Steingroever2011</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Verify table 1 (include link  to it).</strong> <br> cite:t}<code class="docutils literal notranslate"><span class="pre">Steingroever_Fridberg_Horstmann_Kjome_Kumari_Lane_Maia_McClelland_Pachur_Premkumar</span></code> speculates that the sample size may be less than 617 due to “missing data for one participant in <span id="id1">Kjome <em>et al.</em> [<a class="reference internal" href="bibliography.html#id8">2010</a>]</span>, and for two participants in <span id="id2">Wood <em>et al.</em> [<a class="reference internal" href="bibliography.html#id13">2005</a>]</span>”. According to table 1 (link again), there should be 19 participants in <span id="id3">Kjome <em>et al.</em> [<a class="reference internal" href="bibliography.html#id8">2010</a>]</span> and 153 in <span id="id4">Wood <em>et al.</em> [<a class="reference internal" href="bibliography.html#id13">2005</a>]</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total number of subjects:&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;choice_95&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;choice_100&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;choice_150&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of subjects: 617
+</pre></div>
+</div>
+</div>
+</div>
+<p>Appears in order, let’s take a closer look to be sure.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Subjects in Kjome study:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;index_100&#39;</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;index_100&#39;</span><span class="p">][</span><span class="s1">&#39;Study&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Kjome&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Subjects in Wood study:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;index_100&#39;</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;index_100&#39;</span><span class="p">][</span><span class="s1">&#39;Study&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Wood&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Subjects in Kjome study: 19
+Subjects in Wood study: 153
+</pre></div>
+</div>
+</div>
+</div>
+<p>Confirms correct number of subjects reported.</p>
+<p><strong>Check for nulls/ unexpected entries</strong></p>
+<p>Sanity checking the data frames for unusual entries, such as null values and unexpected data types. Additionally, confirming the data frames are structured as expected, e.g. checking that all entries in lo_t are negative integers and that 1, 2, 3 and 4 are the only entries in choice_t.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">uniq_entries</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([(</span><span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2"> (</span><span class="si">{:.2f}</span><span class="s2">%)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">count</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span> <span class="k">for</span> <span class="n">entry</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()])</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">uniq_entries</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([(</span><span class="s2">&quot;</span><span class="si">{:}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">entry</span><span class="p">))</span> <span class="k">for</span> <span class="n">entry</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()])</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[1mUnique entries (and their frequency) in </span><span class="si">{:}</span><span class="s2">:</span><span class="se">\033</span><span class="s2">[0m </span><span class="se">\n</span><span class="si">{:}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">uniq_entries</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Unique entries (and their frequency) in choice_95:</span> 
+1.00 (13.12%), 2.00 (29.82%), 3.00 (13.61%), 4.00 (43.44%)
+<span class=" -Color -Color-Bold">Unique entries (and their frequency) in wi_95:</span> 
+50.00 (57.05%), 100.00 (42.95%)
+<span class=" -Color -Color-Bold">Unique entries (and their frequency) in lo_95:</span> 
+-1250.00 (3.23%), -350.00 (1.61%), -300.00 (1.19%), -250.00 (5.54%), -200.00 (1.12%), -150.00 (1.19%), -75.00 (0.56%), -50.00 (4.91%), -25.00 (0.98%), 0.00 (79.65%)
+<span class=" -Color -Color-Bold">Unique entries (and their frequency) in index_95:</span> 
+Fridberg
+<span class=" -Color -Color-Bold">Unique entries (and their frequency) in choice_100:</span> 
+1.00 (15.21%), 2.00 (30.98%), 3.00 (23.66%), 4.00 (30.14%)
+<span class=" -Color -Color-Bold">Unique entries (and their frequency) in wi_100:</span> 
+40.00 (3.60%), 45.00 (2.41%), 50.00 (34.28%), 55.00 (4.20%), 60.00 (3.41%), 65.00 (2.19%), 70.00 (1.71%), 75.00 (0.59%), 80.00 (2.58%), 85.00 (0.27%), 90.00 (2.74%), 95.00 (0.05%), 100.00 (31.80%), 110.00 (3.68%), 120.00 (3.62%), 130.00 (1.75%), 140.00 (0.79%), 150.00 (0.23%), 160.00 (0.08%), 170.00 (0.02%)
+<span class=" -Color -Color-Bold">Unique entries (and their frequency) in lo_100:</span> 
+-2500.00 (0.01%), -2250.00 (0.03%), -2000.00 (0.12%), -1750.00 (0.29%), -1500.00 (0.36%), -1250.00 (2.46%), -750.00 (0.00%), -375.00 (0.03%), -350.00 (1.71%), -325.00 (0.15%), -300.00 (1.78%), -275.00 (0.34%), -250.00 (3.93%), -200.00 (1.58%), -150.00 (1.45%), -75.00 (1.22%), -50.00 (9.03%), -25.00 (2.32%), 0.00 (73.19%)
+<span class=" -Color -Color-Bold">Unique entries (and their frequency) in index_100:</span> 
+Horstmann, Kjome, Maia, Premkumar, SteingroverInPrep, Wood, Worthy
+<span class=" -Color -Color-Bold">Unique entries (and their frequency) in choice_150:</span> 
+1.00 (12.95%), 2.00 (31.04%), 3.00 (28.02%), 4.00 (27.99%)
+<span class=" -Color -Color-Bold">Unique entries (and their frequency) in wi_150:</span> 
+50.00 (56.01%), 100.00 (43.99%)
+<span class=" -Color -Color-Bold">Unique entries (and their frequency) in lo_150:</span> 
+-1250.00 (3.11%), -350.00 (1.35%), -300.00 (1.25%), -250.00 (4.21%), -200.00 (1.30%), -150.00 (1.33%), -50.00 (14.07%), -0.00 (73.37%)
+<span class=" -Color -Color-Bold">Unique entries (and their frequency) in index_150:</span> 
+Steingroever2011, Wetzels
+</pre></div>
+</div>
+</div>
+</div>
+<p>No unexpected entries.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># data preparation section</span>
+<span class="c1"># df for win - loss (outcome of each trial)</span>
+<span class="c1"># cumulative profit/loss</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># maybe contrast payoff scheme 3 -&gt; if so add payoff scheme to study data frame</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># verify good/bad decks</span>
+<span class="c1"># when do players develop a tendency/aversion to certain decks -&gt; do they correctly identify them</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">

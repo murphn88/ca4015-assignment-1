@@ -40,7 +40,7 @@ A detailed description of the payoff schemes can be found here (include link?).
 ## Data Source
 
 The data used in this analysis was compiled by {cite:t}`Steingroever_Fridberg_Horstmann_Kjome_Kumari_Lane_Maia_McClelland_Pachur_Premkumar`, and can be readily downloaded from [https://osf.io/8t7rm/](https://osf.io/8t7rm/) (at time of publishing 13/010/2021). It consists of data collected from 617 participants across 10 independent IGT studies. For each participant, each deck selection and the resulting win/loss has been captured.  
-An overview of the compiled studies can be seen in the below table.
+An overview of the studies can be seen in the below table.
 
 
 
