@@ -233,6 +233,11 @@
    1.3. Data Exploration
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preprocessing-for-clustering">
+   1.4. Preprocessing for Clustering
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -255,6 +260,7 @@
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">pyreadr</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
 </pre></div>
 </div>
 </div>
@@ -399,6 +405,72 @@ All other dataframes have consistent row names of the form Subj_1, Subj_2, Subj_
 </table>
 </div></div></div>
 </div>
+<p><strong>Add payoff scheme to index_t</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">study_payscheme</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Fridberg&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Horstmann&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Kjome&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Maia&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Premkumar&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;SteingroverInPrep&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Wood&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Worthy&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Steingroever2011&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Wetzels&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;index&#39;</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="n">payscheme</span> <span class="o">=</span> <span class="p">[</span><span class="n">study_payscheme</span><span class="p">[</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+    <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;PayScheme&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">payscheme</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;index_150&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Study</th>
+      <th>PayScheme</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Subj_1</th>
+      <td>Steingroever2011</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Subj_2</th>
+      <td>Steingroever2011</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Subj_3</th>
+      <td>Steingroever2011</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Subj_4</th>
+      <td>Steingroever2011</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Subj_5</th>
+      <td>Steingroever2011</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <p><strong>Verify table 1 (include link  to it).</strong> <br> <span id="id1">Steingroever <em>et al.</em> [<a class="reference internal" href="bibliography.html#id15">2015</a>]</span> speculates that the sample size may be less than 617 due to “missing data for one participant in <span id="id2">Kjome <em>et al.</em> [<a class="reference internal" href="bibliography.html#id8">2010</a>]</span>, and for two participants in <span id="id3">Wood <em>et al.</em> [<a class="reference internal" href="bibliography.html#id13">2005</a>]</span>”. According to table 1 (link again), there should be 19 participants in <span id="id4">Kjome <em>et al.</em> [<a class="reference internal" href="bibliography.html#id8">2010</a>]</span> and 153 in <span id="id5">Wood <em>et al.</em> [<a class="reference internal" href="bibliography.html#id13">2005</a>]</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -435,10 +507,10 @@ Subjects in Wood study: 153
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">uniq_entries</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([(</span><span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2"> (</span><span class="si">{:.2f}</span><span class="s2">%)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">count</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span> <span class="k">for</span> <span class="n">entry</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[1mUnique entries (and their frequency) in </span><span class="si">{:}</span><span class="s2">:</span><span class="se">\033</span><span class="s2">[0m </span><span class="se">\n</span><span class="si">{:}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">uniq_entries</span><span class="p">))</span>        
     <span class="k">except</span><span class="p">:</span>
-        <span class="n">uniq_entries</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([(</span><span class="s2">&quot;</span><span class="si">{:}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">entry</span><span class="p">))</span> <span class="k">for</span> <span class="n">entry</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()])</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[1mUnique entries (and their frequency) in </span><span class="si">{:}</span><span class="s2">:</span><span class="se">\033</span><span class="s2">[0m </span><span class="se">\n</span><span class="si">{:}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">uniq_entries</span><span class="p">))</span>
+        <span class="n">uniq_entries</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([(</span><span class="s2">&quot;</span><span class="si">{:}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">entry</span><span class="p">))</span> <span class="k">for</span> <span class="n">entry</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[1mUnique entries in </span><span class="si">{:}</span><span class="s2">:</span><span class="se">\033</span><span class="s2">[0m </span><span class="se">\n</span><span class="si">{:}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">uniq_entries</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -449,24 +521,24 @@ Subjects in Wood study: 153
 50.00 (57.05%), 100.00 (42.95%)
 <span class=" -Color -Color-Bold">Unique entries (and their frequency) in lo_95:</span> 
 -1250.00 (3.23%), -350.00 (1.61%), -300.00 (1.19%), -250.00 (5.54%), -200.00 (1.12%), -150.00 (1.19%), -75.00 (0.56%), -50.00 (4.91%), -25.00 (0.98%), 0.00 (79.65%)
-<span class=" -Color -Color-Bold">Unique entries (and their frequency) in index_95:</span> 
-Fridberg
+<span class=" -Color -Color-Bold">Unique entries in index_95:</span> 
+1, Fridberg
 <span class=" -Color -Color-Bold">Unique entries (and their frequency) in choice_100:</span> 
 1.00 (15.21%), 2.00 (30.98%), 3.00 (23.66%), 4.00 (30.14%)
 <span class=" -Color -Color-Bold">Unique entries (and their frequency) in wi_100:</span> 
 40.00 (3.60%), 45.00 (2.41%), 50.00 (34.28%), 55.00 (4.20%), 60.00 (3.41%), 65.00 (2.19%), 70.00 (1.71%), 75.00 (0.59%), 80.00 (2.58%), 85.00 (0.27%), 90.00 (2.74%), 95.00 (0.05%), 100.00 (31.80%), 110.00 (3.68%), 120.00 (3.62%), 130.00 (1.75%), 140.00 (0.79%), 150.00 (0.23%), 160.00 (0.08%), 170.00 (0.02%)
 <span class=" -Color -Color-Bold">Unique entries (and their frequency) in lo_100:</span> 
 -2500.00 (0.01%), -2250.00 (0.03%), -2000.00 (0.12%), -1750.00 (0.29%), -1500.00 (0.36%), -1250.00 (2.46%), -750.00 (0.00%), -375.00 (0.03%), -350.00 (1.71%), -325.00 (0.15%), -300.00 (1.78%), -275.00 (0.34%), -250.00 (3.93%), -200.00 (1.58%), -150.00 (1.45%), -75.00 (1.22%), -50.00 (9.03%), -25.00 (2.32%), 0.00 (73.19%)
-<span class=" -Color -Color-Bold">Unique entries (and their frequency) in index_100:</span> 
-Horstmann, Kjome, Maia, Premkumar, SteingroverInPrep, Wood, Worthy
+<span class=" -Color -Color-Bold">Unique entries in index_100:</span> 
+1, 2, 3, Horstmann, Kjome, Maia, Premkumar, SteingroverInPrep, Wood, Worthy
 <span class=" -Color -Color-Bold">Unique entries (and their frequency) in choice_150:</span> 
 1.00 (12.95%), 2.00 (31.04%), 3.00 (28.02%), 4.00 (27.99%)
 <span class=" -Color -Color-Bold">Unique entries (and their frequency) in wi_150:</span> 
 50.00 (56.01%), 100.00 (43.99%)
 <span class=" -Color -Color-Bold">Unique entries (and their frequency) in lo_150:</span> 
 -1250.00 (3.11%), -350.00 (1.35%), -300.00 (1.25%), -250.00 (4.21%), -200.00 (1.30%), -150.00 (1.33%), -50.00 (14.07%), -0.00 (73.37%)
-<span class=" -Color -Color-Bold">Unique entries (and their frequency) in index_150:</span> 
-Steingroever2011, Wetzels
+<span class=" -Color -Color-Bold">Unique entries in index_150:</span> 
+2, Steingroever2011, Wetzels
 </pre></div>
 </div>
 </div>
@@ -1029,7 +1101,9 @@ Steingroever2011, Wetzels
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>choice_95 net outcome 	| choice_100 net outcome | choice_150 net outcome
 -------------------------------------------------------------------------
-deck A:   -4950.00 	| deck A: -239320.00 	 | deck A:  -52000.00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>deck A:   -4950.00 	| deck A: -239320.00 	 | deck A:  -52000.00
 deck B:  -15000.00 	| deck B: -625400.00 	 | deck B: -114950.00
 deck C:    5250.00 	| deck C:  315750.00 	 | deck C:  102500.00
 deck D:   15950.00 	| deck D:  414405.00 	 | deck D:  101000.00
@@ -1054,10 +1128,11 @@ deck D:   15950.00 	| deck D:  414405.00 	 | deck D:  101000.00
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>95 Trial Variation:  7 subjects (or 46.67 %)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>95 Trial Variation: 
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100 Trial Variation: 208 subjects (or 41.27 %)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 7 subjects (or 46.67 %)
+100 Trial Variation: 208 subjects (or 41.27 %)
 150 Trial Variation: 62 subjects (or 63.27 %)
 </pre></div>
 </div>
@@ -1255,8 +1330,8 @@ deck D:   15950.00 	| deck D:  414405.00 	 | deck D:  101000.00
     
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_range</span><span class="p">,(</span><span class="n">grouped_choices</span><span class="p">[</span><span class="n">grouped_keys</span><span class="p">[</span><span class="n">ind</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">+</span> <span class="n">grouped_choices</span><span class="p">[</span><span class="n">grouped_keys</span><span class="p">[</span><span class="n">ind</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;limegreen&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;good decks&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_range</span><span class="p">,(</span><span class="n">grouped_choices</span><span class="p">[</span><span class="n">grouped_keys</span><span class="p">[</span><span class="n">ind</span><span class="p">]]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">+</span> <span class="n">grouped_choices</span><span class="p">[</span><span class="n">grouped_keys</span><span class="p">[</span><span class="n">ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;crimson&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;bad decks&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_range</span><span class="p">,(</span><span class="n">grouped_choices</span><span class="p">[</span><span class="n">grouped_keys</span><span class="p">[</span><span class="n">ind</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">+</span> <span class="n">grouped_choices</span><span class="p">[</span><span class="n">grouped_keys</span><span class="p">[</span><span class="n">ind</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;limegreen&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;good decks&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_range</span><span class="p">,(</span><span class="n">grouped_choices</span><span class="p">[</span><span class="n">grouped_keys</span><span class="p">[</span><span class="n">ind</span><span class="p">]]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">+</span> <span class="n">grouped_choices</span><span class="p">[</span><span class="n">grouped_keys</span><span class="p">[</span><span class="n">ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;crimson&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;bad decks&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;trial number&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;frequency [%]&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">grouped_keys</span><span class="p">[</span><span class="n">ind</span><span class="p">][</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; Trial Variation - Avg Deck Selection&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
@@ -1270,29 +1345,516 @@ deck D:   15950.00 	| deck D:  414405.00 	 | deck D:  101000.00
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/data_exploration_40_0.png" src="_images/data_exploration_40_0.png" />
-<img alt="_images/data_exploration_40_1.png" src="_images/data_exploration_40_1.png" />
-<img alt="_images/data_exploration_40_2.png" src="_images/data_exploration_40_2.png" />
+<img alt="_images/data_exploration_43_0.png" src="_images/data_exploration_43_0.png" />
+<img alt="_images/data_exploration_43_1.png" src="_images/data_exploration_43_1.png" />
+<img alt="_images/data_exploration_43_2.png" src="_images/data_exploration_43_2.png" />
 </div>
 </div>
 <p>In the above graphs, the bad decks (deck A and B) are the most popular at the beginning. However, subjects appear to begin to recognize the bad decks (decks C and D) after approximately 13 trials, as the frequency of bad decks declines. For both, the 95 and 100 Trial Variations, the good decks overtake the bad decks after around 30 trials. On average, it appears to take the subjects of the 150 Trial Variation longer to recognize and tend towards the good decks, with the frequency of the good decks surpassing the bad deck after 57 trials. Interestingly, at the 90 trial mark, subjects in the 150 Trial Variation are selecting good decks with a similar or worse frequency to the subjects in the other 2 trial variations. Performance, for those in the 150 Trial Variation, continues to improve after 100 trials, with the gap between the green and red line increasing. This supports our earlier speculation of why a larger proportion of subjects made a profits in the 150 Trial Variation - they’re more likely to identify the good and bad decks, as they do more repetitions of the task.</p>
+<p><strong>Let’s look at an individual plot for a good &amp; bad subject.</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pick out a good and bad player and show their individual graphs</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">good_player</span> <span class="o">=</span> <span class="n">cum_out_100</span><span class="p">[</span><span class="s1">&#39;Trial_100&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">)),((</span><span class="n">grouped_choices</span><span class="p">[</span><span class="s1">&#39;deck3_choice_100&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">good_player</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">grouped_choices</span><span class="p">[</span><span class="s1">&#39;deck4_choice_100&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">good_player</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;limegreen&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;good decks&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">)),((</span><span class="n">grouped_choices</span><span class="p">[</span><span class="s1">&#39;deck1_choice_100&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">good_player</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">grouped_choices</span><span class="p">[</span><span class="s1">&#39;deck2_choice_100&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">good_player</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;crimson&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;bad decks&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;trial number&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;frequency [%]&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Good player - &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">good_player</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;, Net outcome of &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cum_out_100</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="n">good_player</span><span class="p">]]</span><span class="o">.</span><span class="n">Trial_100</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
+<span class="n">bad_player</span> <span class="o">=</span> <span class="n">cum_out_100</span><span class="p">[</span><span class="s1">&#39;Trial_100&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">)),((</span><span class="n">grouped_choices</span><span class="p">[</span><span class="s1">&#39;deck3_choice_100&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">bad_player</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">grouped_choices</span><span class="p">[</span><span class="s1">&#39;deck4_choice_100&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">bad_player</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;limegreen&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;good decks&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">)),((</span><span class="n">grouped_choices</span><span class="p">[</span><span class="s1">&#39;deck1_choice_100&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">bad_player</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">grouped_choices</span><span class="p">[</span><span class="s1">&#39;deck2_choice_100&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">bad_player</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;crimson&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;bad decks&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;trial number&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;frequency [%]&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Bad player - &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">bad_player</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;, Net outcome of &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cum_out_100</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="n">bad_player</span><span class="p">]]</span><span class="o">.</span><span class="n">Trial_100</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/data_exploration_46_0.png" src="_images/data_exploration_46_0.png" />
+<img alt="_images/data_exploration_46_1.png" src="_images/data_exploration_46_1.png" />
+</div>
+</div>
+<p>The good player clearly has a preference for the good decks, while the bad player mainly sticks to the bad decks.</p>
+<p><strong>Try to identify, when, if at all, a subject recognizes the good decks.</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">player</span> <span class="o">=</span> <span class="s1">&#39;Subj_188&#39;</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">)),((</span><span class="n">grouped_choices</span><span class="p">[</span><span class="s1">&#39;deck3_choice_100&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">grouped_choices</span><span class="p">[</span><span class="s1">&#39;deck4_choice_100&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;limegreen&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;good decks&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">)),((</span><span class="n">grouped_choices</span><span class="p">[</span><span class="s1">&#39;deck1_choice_100&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">grouped_choices</span><span class="p">[</span><span class="s1">&#39;deck2_choice_100&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;crimson&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;bad decks&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;trial number&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;frequency [%]&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Player - &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">player</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;, Net outcome of &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cum_out_100</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="n">player</span><span class="p">]]</span><span class="o">.</span><span class="n">Trial_100</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mf">45.5</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/data_exploration_49_0.png" src="_images/data_exploration_49_0.png" />
+</div>
+</div>
+<p>The green line overtakes the red line, and stays on top, at the 46 trial mark. So, from the 35th trial onwards (remember we’re working with rolling groups of 10), this subject chooses more form the good decks, than the bad decks. In fact, this subject develops a complete aversion after 35 trials.<br />
+Let’s write a function to extract the circled point, the point where the green line overtakes the red line and remains on top. If the point doesn’t exist (i.e., the green line isn’t above the red line at the end), we’ll choose the last point across all variations (i.e., the number of the last trial, which is 150).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trial_variations</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;95&#39;</span><span class="p">,</span> <span class="s1">&#39;100&#39;</span><span class="p">,</span> <span class="s1">&#39;150&#39;</span><span class="p">]</span>
+<span class="n">aha_moments</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">deck3</span> <span class="o">=</span> <span class="n">grouped_choices</span><span class="p">[(</span><span class="s1">&#39;deck3_choice_&#39;</span> <span class="o">+</span> <span class="n">trial_variations</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span>
+    <span class="n">deck4</span> <span class="o">=</span> <span class="n">grouped_choices</span><span class="p">[(</span><span class="s1">&#39;deck4_choice_&#39;</span> <span class="o">+</span> <span class="n">trial_variations</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span>
+    <span class="n">subj_aha_moments</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">subj</span> <span class="ow">in</span> <span class="n">deck3</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">():</span>
+        <span class="n">freq_good_decks</span> <span class="o">=</span> <span class="p">(</span><span class="n">deck3</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">subj</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">deck4</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">subj</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">*</span> <span class="mi">10</span>
+        <span class="n">last_trial</span> <span class="o">=</span> <span class="n">freq_good_decks</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">aha_moment</span> <span class="o">=</span> <span class="s1">&#39;trial_150&#39;</span>
+        <span class="n">good_majority_bin</span> <span class="o">=</span> <span class="p">((</span><span class="n">freq_good_decks</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()[</span><span class="n">subj</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">good_majority_bin</span><span class="p">[</span><span class="n">good_majority_bin</span><span class="p">[</span><span class="n">subj</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">((</span><span class="n">good_majority_bin</span><span class="p">[</span><span class="n">subj</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">last_trial</span><span class="p">:</span>
+                <span class="n">aha_moment</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">subj_aha_moments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">aha_moment</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">aha_moments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">subj_aha_moments</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AhaMoment&#39;</span><span class="p">],</span> <span class="n">index</span> <span class="o">=</span> <span class="n">deck3</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Check the function</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">player</span> <span class="o">=</span> <span class="s1">&#39;Subj_89&#39;</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">151</span><span class="p">)),((</span><span class="n">grouped_choices</span><span class="p">[</span><span class="s1">&#39;deck3_choice_150&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">grouped_choices</span><span class="p">[</span><span class="s1">&#39;deck4_choice_150&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;limegreen&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;good decks&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">151</span><span class="p">)),((</span><span class="n">grouped_choices</span><span class="p">[</span><span class="s1">&#39;deck1_choice_150&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">grouped_choices</span><span class="p">[</span><span class="s1">&#39;deck2_choice_150&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;crimson&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;bad decks&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;trial number&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;frequency [%]&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Player - &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">player</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;, Net outcome of &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cum_out_150</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="n">player</span><span class="p">]]</span><span class="o">.</span><span class="n">Trial_150</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="n">aha_moments</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Subj_89&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">50</span><span class="p">),</span> <span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/data_exploration_53_0.png" src="_images/data_exploration_53_0.png" />
+</div>
+</div>
+<p>Works as expected.</p>
+<p><strong>Redefine aha_moment as the trial from which the subsequent majority of choices are good.</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aha_moments</span> <span class="o">=</span> <span class="p">[</span><span class="n">aha_moment</span> <span class="o">-</span> <span class="mi">9</span> <span class="k">for</span> <span class="n">aha_moment</span> <span class="ow">in</span> <span class="n">aha_moments</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="preprocessing-for-clustering">
+<h2><span class="section-number">1.4. </span>Preprocessing for Clustering<a class="headerlink" href="#preprocessing-for-clustering" title="Permalink to this headline">¶</a></h2>
+<p><strong>Reduce dimensionality</strong></p>
+<p>As the number of variables (dimensions) increases, the distance-based similarity measure converges to a constant value. Thus, the higher the dimensionality, the more difficult it becomes to find strict differences between instances.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># dataframe for each subject with the frequency of good decks chosen</span>
+
+<span class="n">deck3_95</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;choice_95&#39;</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;choice_95&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">95</span>
+<span class="n">deck4_95</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;choice_95&#39;</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;choice_95&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">95</span>
+<span class="n">goodfreq_95</span> <span class="o">=</span> <span class="n">deck3_95</span> <span class="o">+</span> <span class="n">deck4_95</span>
+
+<span class="n">deck3_100</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;choice_100&#39;</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;choice_100&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">100</span>
+<span class="n">deck4_100</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;choice_100&#39;</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;choice_100&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">100</span>
+<span class="n">goodfreq_100</span> <span class="o">=</span> <span class="n">deck3_100</span> <span class="o">+</span> <span class="n">deck4_100</span>
+
+
+<span class="n">deck3_150</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;choice_150&#39;</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;choice_150&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">150</span>
+<span class="n">deck4_150</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;choice_150&#39;</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;choice_150&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">150</span>
+<span class="n">goodfreq_150</span> <span class="o">=</span> <span class="n">deck3_150</span> <span class="o">+</span> <span class="n">deck4_150</span>
+
+<span class="n">goodfreq_100</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Subj_1    0.37
+Subj_2    0.51
+Subj_3    0.37
+Subj_4    0.63
+Subj_5    0.54
+dtype: float64
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># maybe contrast payoff scheme 3 to the others -&gt; if so add payoff scheme to study data frame</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">reduced_95</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;index_95&#39;</span><span class="p">][</span><span class="s1">&#39;Study&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;index_95&#39;</span><span class="p">][</span><span class="s1">&#39;PayScheme&#39;</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="mi">95</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">cum_out_95</span><span class="p">),</span> <span class="n">index</span> <span class="o">=</span> <span class="n">cum_out_95</span><span class="o">.</span><span class="n">index</span><span class="p">),</span> <span class="n">goodfreq_95</span><span class="p">,</span> <span class="n">aha_moments</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cum_out_95</span><span class="p">[</span><span class="s1">&#39;Trial_95&#39;</span><span class="p">],</span> <span class="n">cum_out_95</span><span class="p">[</span><span class="s1">&#39;Trial_95&#39;</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">reduced_95</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Study&#39;</span><span class="p">,</span> <span class="s1">&#39;PayScheme&#39;</span><span class="p">,</span> <span class="s1">&#39;Trials&#39;</span><span class="p">,</span> <span class="s1">&#39;FreqGoodDecks&#39;</span><span class="p">,</span> <span class="s1">&#39;AhaMoment&#39;</span><span class="p">,</span> <span class="s1">&#39;CumOutTrial95&#39;</span><span class="p">,</span> <span class="s1">&#39;NetOut&#39;</span><span class="p">]</span>
+
+<span class="n">reduced_100</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;index_100&#39;</span><span class="p">][</span><span class="s1">&#39;Study&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;index_100&#39;</span><span class="p">][</span><span class="s1">&#39;PayScheme&#39;</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="mi">100</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">cum_out_100</span><span class="p">),</span> <span class="n">index</span> <span class="o">=</span> <span class="n">cum_out_100</span><span class="o">.</span><span class="n">index</span><span class="p">),</span> <span class="n">goodfreq_100</span><span class="p">,</span> <span class="n">aha_moments</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cum_out_100</span><span class="p">[</span><span class="s1">&#39;Trial_95&#39;</span><span class="p">],</span> <span class="n">cum_out_100</span><span class="p">[</span><span class="s1">&#39;Trial_100&#39;</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">reduced_100</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Study&#39;</span><span class="p">,</span> <span class="s1">&#39;PayScheme&#39;</span><span class="p">,</span> <span class="s1">&#39;Trials&#39;</span><span class="p">,</span> <span class="s1">&#39;FreqGoodDecks&#39;</span><span class="p">,</span> <span class="s1">&#39;AhaMoment&#39;</span><span class="p">,</span> <span class="s1">&#39;CumOutTrial95&#39;</span><span class="p">,</span> <span class="s1">&#39;NetOut&#39;</span><span class="p">]</span>
+
+<span class="n">reduced_150</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;index_150&#39;</span><span class="p">][</span><span class="s1">&#39;Study&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;index_150&#39;</span><span class="p">][</span><span class="s1">&#39;PayScheme&#39;</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="mi">150</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">cum_out_150</span><span class="p">),</span> <span class="n">index</span> <span class="o">=</span> <span class="n">cum_out_150</span><span class="o">.</span><span class="n">index</span><span class="p">),</span> <span class="n">goodfreq_150</span><span class="p">,</span> <span class="n">aha_moments</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">cum_out_150</span><span class="p">[</span><span class="s1">&#39;Trial_95&#39;</span><span class="p">],</span> <span class="n">cum_out_150</span><span class="p">[</span><span class="s1">&#39;Trial_150&#39;</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">reduced_150</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Study&#39;</span><span class="p">,</span> <span class="s1">&#39;PayScheme&#39;</span><span class="p">,</span> <span class="s1">&#39;Trials&#39;</span><span class="p">,</span> <span class="s1">&#39;FreqGoodDecks&#39;</span><span class="p">,</span> <span class="s1">&#39;AhaMoment&#39;</span><span class="p">,</span> <span class="s1">&#39;CumOutTrial95&#39;</span><span class="p">,</span> <span class="s1">&#39;NetOut&#39;</span><span class="p">]</span>
+
+<span class="n">reduced</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">reduced_95</span><span class="p">,</span> <span class="n">reduced_100</span><span class="p">,</span> <span class="n">reduced_150</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">reduced</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Study</th>
+      <th>PayScheme</th>
+      <th>Trials</th>
+      <th>FreqGoodDecks</th>
+      <th>AhaMoment</th>
+      <th>CumOutTrial95</th>
+      <th>NetOut</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Subj_1</th>
+      <td>Fridberg</td>
+      <td>1</td>
+      <td>95</td>
+      <td>0.778947</td>
+      <td>11</td>
+      <td>1150.0</td>
+      <td>1150.0</td>
+    </tr>
+    <tr>
+      <th>Subj_2</th>
+      <td>Fridberg</td>
+      <td>1</td>
+      <td>95</td>
+      <td>0.473684</td>
+      <td>141</td>
+      <td>-675.0</td>
+      <td>-675.0</td>
+    </tr>
+    <tr>
+      <th>Subj_3</th>
+      <td>Fridberg</td>
+      <td>1</td>
+      <td>95</td>
+      <td>0.505263</td>
+      <td>83</td>
+      <td>-750.0</td>
+      <td>-750.0</td>
+    </tr>
+    <tr>
+      <th>Subj_4</th>
+      <td>Fridberg</td>
+      <td>1</td>
+      <td>95</td>
+      <td>0.526316</td>
+      <td>83</td>
+      <td>-525.0</td>
+      <td>-525.0</td>
+    </tr>
+    <tr>
+      <th>Subj_5</th>
+      <td>Fridberg</td>
+      <td>1</td>
+      <td>95</td>
+      <td>0.642105</td>
+      <td>75</td>
+      <td>100.0</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>Subj_94</th>
+      <td>Wetzels</td>
+      <td>2</td>
+      <td>150</td>
+      <td>0.380000</td>
+      <td>136</td>
+      <td>-450.0</td>
+      <td>300.0</td>
+    </tr>
+    <tr>
+      <th>Subj_95</th>
+      <td>Wetzels</td>
+      <td>2</td>
+      <td>150</td>
+      <td>0.760000</td>
+      <td>99</td>
+      <td>1350.0</td>
+      <td>2150.0</td>
+    </tr>
+    <tr>
+      <th>Subj_96</th>
+      <td>Wetzels</td>
+      <td>2</td>
+      <td>150</td>
+      <td>0.753333</td>
+      <td>113</td>
+      <td>1200.0</td>
+      <td>1450.0</td>
+    </tr>
+    <tr>
+      <th>Subj_97</th>
+      <td>Wetzels</td>
+      <td>2</td>
+      <td>150</td>
+      <td>0.633333</td>
+      <td>91</td>
+      <td>-400.0</td>
+      <td>1200.0</td>
+    </tr>
+    <tr>
+      <th>Subj_98</th>
+      <td>Wetzels</td>
+      <td>2</td>
+      <td>150</td>
+      <td>0.233333</td>
+      <td>141</td>
+      <td>-2050.0</td>
+      <td>-1800.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>617 rows × 7 columns</p>
+</div></div></div>
+</div>
+<div class="warning admonition">
+<p class="admonition-title">Caution</p>
+<p>We cannot use the k-means clustering algorithm on the ‘Study’ and ‘PayScheme’ columns, as they are categorical variables. If we were to cluster on ‘PayScheme’, for example, k-means would assume that schemes 2 and 3 are more similar than schemes 1 and 3, so we cannot simply convert these feautures into numerical features.</p>
+</div>
+<p><strong>Standardization</strong></p>
+<p>Standardization is an important preprocessing step, prior to running the k-means algorithm, as it is a distance-based algorithm. It involves shifting the scales of each feature, so that the values for each feautre have a mean of 0 and a standard deviation of 1.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaled</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">reduced</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:])</span>
+<span class="n">scaled</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scaled</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">reduced</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">reduced</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">2</span><span class="p">:])</span>
+<span class="n">scaled</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">reduced</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scaled</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">scaled</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Study</th>
+      <th>PayScheme</th>
+      <th>Trials</th>
+      <th>FreqGoodDecks</th>
+      <th>AhaMoment</th>
+      <th>CumOutTrial95</th>
+      <th>NetOut</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Subj_1</th>
+      <td>Fridberg</td>
+      <td>1</td>
+      <td>-0.698836</td>
+      <td>1.421697</td>
+      <td>-1.982720</td>
+      <td>1.248889</td>
+      <td>1.044988</td>
+    </tr>
+    <tr>
+      <th>Subj_2</th>
+      <td>Fridberg</td>
+      <td>1</td>
+      <td>-0.698836</td>
+      <td>-0.412875</td>
+      <td>0.962299</td>
+      <td>-0.361638</td>
+      <td>-0.414346</td>
+    </tr>
+    <tr>
+      <th>Subj_3</th>
+      <td>Fridberg</td>
+      <td>1</td>
+      <td>-0.698836</td>
+      <td>-0.223092</td>
+      <td>-0.351633</td>
+      <td>-0.427824</td>
+      <td>-0.474318</td>
+    </tr>
+    <tr>
+      <th>Subj_4</th>
+      <td>Fridberg</td>
+      <td>1</td>
+      <td>-0.698836</td>
+      <td>-0.096570</td>
+      <td>-0.351633</td>
+      <td>-0.229266</td>
+      <td>-0.294400</td>
+    </tr>
+    <tr>
+      <th>Subj_5</th>
+      <td>Fridberg</td>
+      <td>1</td>
+      <td>-0.698836</td>
+      <td>0.599302</td>
+      <td>-0.532865</td>
+      <td>0.322284</td>
+      <td>0.205371</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>Subj_94</th>
+      <td>Wetzels</td>
+      <td>2</td>
+      <td>2.299267</td>
+      <td>-0.975899</td>
+      <td>0.849029</td>
+      <td>-0.163080</td>
+      <td>0.365298</td>
+    </tr>
+    <tr>
+      <th>Subj_95</th>
+      <td>Wetzels</td>
+      <td>2</td>
+      <td>2.299267</td>
+      <td>1.307827</td>
+      <td>0.010831</td>
+      <td>1.425385</td>
+      <td>1.844623</td>
+    </tr>
+    <tr>
+      <th>Subj_96</th>
+      <td>Wetzels</td>
+      <td>2</td>
+      <td>2.299267</td>
+      <td>1.267761</td>
+      <td>0.327987</td>
+      <td>1.293013</td>
+      <td>1.284878</td>
+    </tr>
+    <tr>
+      <th>Subj_97</th>
+      <td>Wetzels</td>
+      <td>2</td>
+      <td>2.299267</td>
+      <td>0.546585</td>
+      <td>-0.170401</td>
+      <td>-0.118956</td>
+      <td>1.084970</td>
+    </tr>
+    <tr>
+      <th>Subj_98</th>
+      <td>Wetzels</td>
+      <td>2</td>
+      <td>2.299267</td>
+      <td>-1.857337</td>
+      <td>0.962299</td>
+      <td>-1.575049</td>
+      <td>-1.313935</td>
+    </tr>
+  </tbody>
+</table>
+<p>617 rows × 7 columns</p>
+</div></div></div>
+</div>
+<p><strong>Save dataframe for clustering</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaled</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;../data/processed.csv&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># prepare the data for clustering</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># maybe contrast payoff scheme 3 to the others</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># what is it about deck B, high % of picks despite being bad, higher highs? less frequent losses?</span>
 </pre></div>
 </div>
 </div>

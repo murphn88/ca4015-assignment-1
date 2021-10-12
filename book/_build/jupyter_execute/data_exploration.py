@@ -13,6 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pyreadr
 import itertools
+from sklearn.preprocessing import StandardScaler
 
 
 # In[2]:
@@ -76,9 +77,25 @@ data['index_150'].head()
 
 #  
 
-# **Verify table 1 (include link  to it).** <br> {cite:t}`Steingroever_Fridberg_Horstmann_Kjome_Kumari_Lane_Maia_McClelland_Pachur_Premkumar` speculates that the sample size may be less than 617 due to "missing data for one participant in {cite:t}`kjome_lane_schmitz_green_ma_prasla_swann_moeller_2010`, and for two participants in {cite:t}`Wood_Busemeyer_Koling_Cox_Davis_2005`". According to table 1 (link again), there should be 19 participants in {cite:t}`kjome_lane_schmitz_green_ma_prasla_swann_moeller_2010` and 153 in {cite:t}`Wood_Busemeyer_Koling_Cox_Davis_2005`.
+# **Add payoff scheme to index_t**
 
 # In[5]:
+
+
+study_payscheme = {'Fridberg':1, 'Horstmann':2, 'Kjome':3, 'Maia':1, 'Premkumar':3, 'SteingroverInPrep':2, 'Wood':3, 'Worthy':1, 'Steingroever2011':2, 'Wetzels':2}
+for key, value in data.items():
+    if not key[0:5] == 'index':
+        continue
+    payscheme = [study_payscheme[val[0]] for val in value.values]
+    data[key]['PayScheme'] = payscheme
+data['index_150'].head()
+
+
+#  
+
+# **Verify table 1 (include link  to it).** <br> {cite:t}`Steingroever_Fridberg_Horstmann_Kjome_Kumari_Lane_Maia_McClelland_Pachur_Premkumar` speculates that the sample size may be less than 617 due to "missing data for one participant in {cite:t}`kjome_lane_schmitz_green_ma_prasla_swann_moeller_2010`, and for two participants in {cite:t}`Wood_Busemeyer_Koling_Cox_Davis_2005`". According to table 1 (link again), there should be 19 participants in {cite:t}`kjome_lane_schmitz_green_ma_prasla_swann_moeller_2010` and 153 in {cite:t}`Wood_Busemeyer_Koling_Cox_Davis_2005`.
+
+# In[6]:
 
 
 print("Total number of subjects:", data['choice_95'].shape[0] + data['choice_100'].shape[0] + data['choice_150'].shape[0])
@@ -86,7 +103,7 @@ print("Total number of subjects:", data['choice_95'].shape[0] + data['choice_100
 
 # Appears in order, let's take a closer look to be sure.
 
-# In[6]:
+# In[7]:
 
 
 print("Subjects in Kjome study:", len(data['index_100'][data['index_100']['Study'] == 'Kjome']))
@@ -101,16 +118,16 @@ print("Subjects in Wood study:", len(data['index_100'][data['index_100']['Study'
 
 # Sanity checking the dataframes for unusual entries, such as null values and unexpected data types. Additionally, confirming the dataframes are structured as expected, e.g. checking that all entries in lo_t are negative integers and that 1, 2, 3 and 4 are the only entries in choice_t.
 
-# In[7]:
+# In[8]:
 
 
 for key, value in data.items():
     try:
         uniq_entries = ', '.join([("{:.2f} ({:.2f}%)".format(entry, count*100)) for entry, count in value.stack().value_counts(normalize=True).sort_index().iteritems()])
+        print("\033[1mUnique entries (and their frequency) in {:}:\033[0m \n{:}".format(key, uniq_entries))        
     except:
-        uniq_entries = ', '.join([("{:}".format(entry)) for entry, count in value.stack().value_counts().sort_index().iteritems()])
-
-    print("\033[1mUnique entries (and their frequency) in {:}:\033[0m \n{:}".format(key, uniq_entries))
+        uniq_entries = ', '.join([("{:}".format(entry)) for entry, count in value.stack().apply(str).value_counts(normalize=True).sort_index().iteritems()])
+        print("\033[1mUnique entries in {:}:\033[0m \n{:}".format(key, uniq_entries))
 
 
 # No unexpected entries.
@@ -119,7 +136,7 @@ for key, value in data.items():
 
 # **Rename the columnns of choice_t, wi_t & lo_t for confirmity.**
 
-# In[8]:
+# In[9]:
 
 
 for key,value in data.items():
@@ -134,7 +151,7 @@ data['choice_95'].head()
 
 # **Make dataframe for net outcome of each trial.**
 
-# In[9]:
+# In[10]:
 
 
 net_95 = data['wi_95'] + data['lo_95']
@@ -145,7 +162,7 @@ net_100.head()
 
 # **Make dataframe for net cumulative outcome of each trial.**
 
-# In[10]:
+# In[11]:
 
 
 cum_out_95 = net_95.cumsum(axis=1)
@@ -158,7 +175,7 @@ cum_out_150.head()
 
 # As explained in the Introduction (add link), there are 2 advantageous decks and 2 disadvantageous decks. Let's verify that C and D are the good decks by checking the net outcome of each deck.
 
-# In[11]:
+# In[12]:
 
 
 print("{:} \t| {:} | {:}".format('choice_95 net outcome', 'choice_100 net outcome', 'choice_150 net outcome'))
@@ -180,7 +197,7 @@ for i in range (1,5):
 
 # **How many subjects made a profit?**
 
-# In[12]:
+# In[13]:
 
 
 profiters_95 = len(cum_out_95.loc[cum_out_95.Trial_95 > 0])
@@ -197,7 +214,7 @@ print('150 Trial Variation:', profiters_150, 'subjects (or',round(profiters_150 
 
 # Produce a graph that shows the frequency of the good and bad decks over the course of the game. To do this, compute the frequency for a rolling group of 10 trials, i.e. calculate the frequency the of the subset of the 10 previous choices.
 
-# In[13]:
+# In[14]:
 
 
 grouped_choices = {}
@@ -209,7 +226,7 @@ for key, value in data.items():
 grouped_choices['deck4_choice_150'].head()
 
 
-# In[14]:
+# In[15]:
 
 
 grouped_keys = list(grouped_choices.keys())
@@ -219,8 +236,8 @@ for i in range(0,3):
     
     fig = plt.figure()
     ax = fig.gca()
-    plt.plot(df_range,(grouped_choices[grouped_keys[ind + 2]].fillna(0).mean() + grouped_choices[grouped_keys[ind + 3]].fillna(0).mean()) / 10 * 100, color = 'limegreen', label = 'good decks')
-    plt.plot(df_range,(grouped_choices[grouped_keys[ind]].fillna(0).mean() + grouped_choices[grouped_keys[ind + 1]].fillna(0).mean()) / 10 * 100, color = 'crimson', label = 'bad decks')
+    plt.plot(df_range,(grouped_choices[grouped_keys[ind + 2]].fillna(0).mean() + grouped_choices[grouped_keys[ind + 3]].fillna(0).mean()) / 10 * 100, color = 'limegreen', linewidth=2.5, label = 'good decks')
+    plt.plot(df_range,(grouped_choices[grouped_keys[ind]].fillna(0).mean() + grouped_choices[grouped_keys[ind + 1]].fillna(0).mean()) / 10 * 100, color = 'crimson', linewidth=2.5, label = 'bad decks')
     plt.xlabel('trial number', fontsize = 14)
     plt.ylabel('frequency [%]', fontsize = 14)
     fig.suptitle(grouped_keys[ind][-3:].strip('_') + ' Trial Variation - Avg Deck Selection', fontsize = 14)
@@ -234,22 +251,195 @@ for i in range(0,3):
 
 # In the above graphs, the bad decks (deck A and B) are the most popular at the beginning. However, subjects appear to begin to recognize the bad decks (decks C and D) after approximately 13 trials, as the frequency of bad decks declines. For both, the 95 and 100 Trial Variations, the good decks overtake the bad decks after around 30 trials. On average, it appears to take the subjects of the 150 Trial Variation longer to recognize and tend towards the good decks, with the frequency of the good decks surpassing the bad deck after 57 trials. Interestingly, at the 90 trial mark, subjects in the 150 Trial Variation are selecting good decks with a similar or worse frequency to the subjects in the other 2 trial variations. Performance, for those in the 150 Trial Variation, continues to improve after 100 trials, with the gap between the green and red line increasing. This supports our earlier speculation of why a larger proportion of subjects made a profits in the 150 Trial Variation - they're more likely to identify the good and bad decks, as they do more repetitions of the task.
 
-# In[15]:
-
-
-# pick out a good and bad player and show their individual graphs
-
+# **Let's look at an individual plot for a good & bad subject.**
 
 # In[16]:
 
 
-# maybe contrast payoff scheme 3 to the others -> if so add payoff scheme to study data frame
+good_player = cum_out_100['Trial_100'].idxmax()
 
+fig = plt.figure()
+ax = fig.gca()
+plt.plot(list(range(1,101)),((grouped_choices['deck3_choice_100'].loc[good_player].fillna(0) + grouped_choices['deck4_choice_100'].loc[good_player].fillna(0))/ 10 * 100).tolist(), color = 'limegreen', label = 'good decks', linewidth=2.5)
+plt.plot(list(range(1,101)),((grouped_choices['deck1_choice_100'].loc[good_player].fillna(0) + grouped_choices['deck2_choice_100'].loc[good_player].fillna(0))/ 10 * 100).tolist(), color = 'crimson', label = 'bad decks', linewidth=2.5)
+plt.xlabel('trial number', fontsize = 14)
+plt.ylabel('frequency [%]', fontsize = 14)
+fig.suptitle('Good player - ' + str(good_player) + ', Net outcome of ' + str(cum_out_100.loc[[good_player]].Trial_100.values[0]), fontsize = 14)
+plt.xlim(10, 100)
+plt.ylim(0, 100)
+plt.legend()
+ax.xaxis.set_ticks(np.arange(10, 100, 20))
+plt.grid()
+plt.show()
+    
+bad_player = cum_out_100['Trial_100'].idxmin()
+
+fig = plt.figure()
+ax = fig.gca()
+plt.plot(list(range(1,101)),((grouped_choices['deck3_choice_100'].loc[bad_player].fillna(0) + grouped_choices['deck4_choice_100'].loc[bad_player].fillna(0))/ 10 * 100).tolist(), color = 'limegreen', label = 'good decks', linewidth=2.5)
+plt.plot(list(range(1,101)),((grouped_choices['deck1_choice_100'].loc[bad_player].fillna(0) + grouped_choices['deck2_choice_100'].loc[bad_player].fillna(0))/ 10 * 100).tolist(), color = 'crimson', label = 'bad decks', linewidth=2.5)
+plt.xlabel('trial number', fontsize = 14)
+plt.ylabel('frequency [%]', fontsize = 14)
+fig.suptitle('Bad player - ' + str(bad_player) + ', Net outcome of ' + str(cum_out_100.loc[[bad_player]].Trial_100.values[0]), fontsize = 14)
+plt.xlim(10, 100)
+plt.ylim(0, 100)
+plt.legend()
+ax.xaxis.set_ticks(np.arange(10, 100, 20))
+plt.grid()
+plt.show()
+
+
+# The good player clearly has a preference for the good decks, while the bad player mainly sticks to the bad decks.
+
+# **Try to identify, when, if at all, a subject recognizes the good decks.**
 
 # In[17]:
 
 
-# prepare the data for clustering
+player = 'Subj_188'
+
+fig = plt.figure()
+ax = fig.gca()
+plt.plot(list(range(1,101)),((grouped_choices['deck3_choice_100'].loc[player].fillna(0) + grouped_choices['deck4_choice_100'].loc[player].fillna(0))/ 10 * 100).tolist(), color = 'limegreen', label = 'good decks', linewidth=2.5)
+plt.plot(list(range(1,101)),((grouped_choices['deck1_choice_100'].loc[player].fillna(0) + grouped_choices['deck2_choice_100'].loc[player].fillna(0))/ 10 * 100).tolist(), color = 'crimson', label = 'bad decks', linewidth=2.5)
+plt.xlabel('trial number', fontsize = 14)
+plt.ylabel('frequency [%]', fontsize = 14)
+fig.suptitle('Player - ' + str(player) + ', Net outcome of ' + str(cum_out_100.loc[[player]].Trial_100.values[0]), fontsize = 14)
+plt.xlim(10, 100)
+plt.ylim(0, 100)
+plt.legend()
+ax.xaxis.set_ticks(np.arange(10, 100, 20))
+plt.grid()
+ax.add_patch(plt.Circle((45.5, 50), 3, color='black', fill=False, linewidth=3))
+plt.show()
+
+
+# The green line overtakes the red line, and stays on top, at the 46 trial mark. So, from the 35th trial onwards (remember we're working with rolling groups of 10), this subject chooses more form the good decks, than the bad decks. In fact, this subject develops a complete aversion after 35 trials.  
+# Let's write a function to extract the circled point, the point where the green line overtakes the red line and remains on top. If the point doesn't exist (i.e., the green line isn't above the red line at the end), we'll choose the last point across all variations (i.e., the number of the last trial, which is 150).
+
+# In[18]:
+
+
+trial_variations = ['95', '100', '150']
+aha_moments = []
+
+for i in range(0,3):
+    deck3 = grouped_choices[('deck3_choice_' + trial_variations[i])]
+    deck4 = grouped_choices[('deck4_choice_' + trial_variations[i])]
+    subj_aha_moments = []
+
+    for subj in deck3.index.tolist():
+        freq_good_decks = (deck3.loc[subj].fillna(0) + deck4.loc[subj].fillna(0)) * 10
+        last_trial = freq_good_decks.index.tolist()[-1]
+        aha_moment = 'trial_150'
+        good_majority_bin = ((freq_good_decks > 50).to_frame()[subj].fillna(False).astype(int)).to_frame()
+        for k, v in good_majority_bin[good_majority_bin[subj] == 1].groupby((good_majority_bin[subj] != 1).cumsum()):
+            if v.index.tolist()[-1] == last_trial:
+                aha_moment = v.index.tolist()[0]
+        subj_aha_moments.append(int(aha_moment.split('_')[-1]))
+    aha_moments.append(pd.DataFrame(subj_aha_moments, columns = ['AhaMoment'], index = deck3.index))
+
+
+# **Check the function**
+
+# In[19]:
+
+
+player = 'Subj_89'
+
+fig = plt.figure()
+ax = fig.gca()
+plt.plot(list(range(1,151)),((grouped_choices['deck3_choice_150'].loc[player].fillna(0) + grouped_choices['deck4_choice_150'].loc[player].fillna(0))/ 10 * 100).tolist(), color = 'limegreen', label = 'good decks', linewidth=2.5)
+plt.plot(list(range(1,151)),((grouped_choices['deck1_choice_150'].loc[player].fillna(0) + grouped_choices['deck2_choice_150'].loc[player].fillna(0))/ 10 * 100).tolist(), color = 'crimson', label = 'bad decks', linewidth=2.5)
+plt.xlabel('trial number', fontsize = 14)
+plt.ylabel('frequency [%]', fontsize = 14)
+fig.suptitle('Player - ' + str(player) + ', Net outcome of ' + str(cum_out_150.loc[[player]].Trial_150.values[0]), fontsize = 14)
+plt.xlim(10, 150)
+plt.ylim(0, 100)
+plt.legend()
+ax.xaxis.set_ticks(np.arange(10, 150, 20))
+plt.grid()
+ax.add_patch(plt.Circle((aha_moments[2].loc['Subj_89'].values[0], 50), 3, color='black', fill=False, linewidth=3, zorder=3))
+plt.show()
+
+
+# Works as expected.
+
+# **Redefine aha_moment as the trial from which the subsequent majority of choices are good.**  
+
+# In[20]:
+
+
+aha_moments = [aha_moment - 9 for aha_moment in aha_moments]
+
+
+# ## Preprocessing for Clustering
+
+# **Reduce dimensionality**
+
+# As the number of variables (dimensions) increases, the distance-based similarity measure converges to a constant value. Thus, the higher the dimensionality, the more difficult it becomes to find strict differences between instances.
+
+# In[21]:
+
+
+# dataframe for each subject with the frequency of good decks chosen
+
+deck3_95 = data['choice_95'][data['choice_95'] == 3].count(1) / 95
+deck4_95 = data['choice_95'][data['choice_95'] == 4].count(1) / 95
+goodfreq_95 = deck3_95 + deck4_95
+
+deck3_100 = data['choice_100'][data['choice_100'] == 3].count(1) / 100
+deck4_100 = data['choice_100'][data['choice_100'] == 4].count(1) / 100
+goodfreq_100 = deck3_100 + deck4_100
+
+
+deck3_150 = data['choice_150'][data['choice_150'] == 3].count(1) / 150
+deck4_150 = data['choice_150'][data['choice_150'] == 4].count(1) / 150
+goodfreq_150 = deck3_150 + deck4_150
+
+goodfreq_100.head()
+
+
+# In[22]:
+
+
+reduced_95 = pd.concat([data['index_95']['Study'], data['index_95']['PayScheme'], pd.DataFrame([95] * len(cum_out_95), index = cum_out_95.index), goodfreq_95, aha_moments[0], cum_out_95['Trial_95'], cum_out_95['Trial_95']], axis=1)
+reduced_95.columns = ['Study', 'PayScheme', 'Trials', 'FreqGoodDecks', 'AhaMoment', 'CumOutTrial95', 'NetOut']
+
+reduced_100 = pd.concat([data['index_100']['Study'], data['index_100']['PayScheme'], pd.DataFrame([100] * len(cum_out_100), index = cum_out_100.index), goodfreq_100, aha_moments[1], cum_out_100['Trial_95'], cum_out_100['Trial_100']], axis=1)
+reduced_100.columns = ['Study', 'PayScheme', 'Trials', 'FreqGoodDecks', 'AhaMoment', 'CumOutTrial95', 'NetOut']
+
+reduced_150 = pd.concat([data['index_150']['Study'], data['index_150']['PayScheme'], pd.DataFrame([150] * len(cum_out_150), index = cum_out_150.index), goodfreq_150, aha_moments[2], cum_out_150['Trial_95'], cum_out_150['Trial_150']], axis=1)
+reduced_150.columns = ['Study', 'PayScheme', 'Trials', 'FreqGoodDecks', 'AhaMoment', 'CumOutTrial95', 'NetOut']
+
+reduced = pd.concat([reduced_95, reduced_100, reduced_150], axis=0)
+reduced
+
+
+# ```{admonition} Caution
+# :class: warning
+# We cannot use the k-means clustering algorithm on the 'Study' and 'PayScheme' columns, as they are categorical variables. If we were to cluster on 'PayScheme', for example, k-means would assume that schemes 2 and 3 are more similar than schemes 1 and 3, so we cannot simply convert these feautures into numerical features.
+# ```
+
+# **Standardization**
+
+# Standardization is an important preprocessing step, prior to running the k-means algorithm, as it is a distance-based algorithm. It involves shifting the scales of each feature, so that the values for each feautre have a mean of 0 and a standard deviation of 1.
+
+# In[23]:
+
+
+scaled = StandardScaler().fit_transform(reduced.iloc[:,2:])
+scaled = pd.DataFrame(scaled, index = reduced.index, columns = reduced.columns.tolist()[2:])
+scaled = pd.concat([reduced.iloc[:,:2], pd.DataFrame(scaled)], axis=1)
+scaled
+
+
+# **Save dataframe for clustering**
+
+# In[24]:
+
+
+scaled.to_csv('../data/processed.csv')
 
 
 # In[ ]:
@@ -258,22 +448,16 @@ for i in range(0,3):
 
 
 
-# In[ ]:
+# In[25]:
 
 
+# maybe contrast payoff scheme 3 to the others
 
 
-
-# In[ ]:
-
+# In[26]:
 
 
-
-
-# In[ ]:
-
-
-
+# what is it about deck B, high % of picks despite being bad, higher highs? less frequent losses?
 
 
 # In[ ]:
