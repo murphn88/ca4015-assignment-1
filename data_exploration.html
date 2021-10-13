@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>1. Data Exploration &#8212; CA4015 IGT Clustering</title>
+    <title>Data Exploration &#8212; CA4015 IGT Clustering</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -52,7 +52,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="2. Clustering" href="clustering.html" />
+    <link rel="next" title="Clustering" href="clustering.html" />
     <link rel="prev" title="Introduction" href="intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -97,22 +97,27 @@
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   1. Data Exploration
+   Data Exploration
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="clustering.html">
-   2. Clustering
+   Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="clustering_privacy.html">
+   K-Means Privacy Preservation
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="conclusion.html">
-   3. Conclusion
+   Conclusion
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="bibliography.html">
-   4. Bibliography
+   Bibliography
   </a>
  </li>
 </ul>
@@ -204,22 +209,22 @@
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#import-libraries-read-in-data">
-   1.1. Import Libraries &amp; Read In Data
+   Import Libraries &amp; Read In Data
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#data-cleaning-validation">
-   1.2. Data Cleaning &amp; Validation
+   Data Cleaning &amp; Validation
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id7">
-   1.3. Data Exploration
+   Data Exploration
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#preprocessing-for-clustering">
-   1.4. Preprocessing for Clustering
+   Preprocessing for Clustering
   </a>
  </li>
 </ul>
@@ -234,9 +239,9 @@
               <div>
                 
   <div class="section" id="data-exploration">
-<h1><span class="section-number">1. </span>Data Exploration<a class="headerlink" href="#data-exploration" title="Permalink to this headline">¶</a></h1>
+<h1>Data Exploration<a class="headerlink" href="#data-exploration" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="import-libraries-read-in-data">
-<h2><span class="section-number">1.1. </span>Import Libraries &amp; Read In Data<a class="headerlink" href="#import-libraries-read-in-data" title="Permalink to this headline">¶</a></h2>
+<h2>Import Libraries &amp; Read In Data<a class="headerlink" href="#import-libraries-read-in-data" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -328,7 +333,7 @@ index_150   | Subj, Study                                              | 0, 1,..
 </ul>
 </div>
 <div class="section" id="data-cleaning-validation">
-<h2><span class="section-number">1.2. </span>Data Cleaning &amp; Validation<a class="headerlink" href="#data-cleaning-validation" title="Permalink to this headline">¶</a></h2>
+<h2>Data Cleaning &amp; Validation<a class="headerlink" href="#data-cleaning-validation" title="Permalink to this headline">¶</a></h2>
 <p><strong>Update index_t row names for confirmity.</strong><br>
 All other dataframes have consistent row names of the form Subj_1, Subj_2, Subj_3 etc.</p>
 <div class="cell docutils container">
@@ -1085,9 +1090,7 @@ Subjects in Wood study: 153
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>choice_95 net outcome 	| choice_100 net outcome | choice_150 net outcome
 -------------------------------------------------------------------------
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>deck A:   -4950.00 	| deck A: -239320.00 	 | deck A:  -52000.00
+deck A:   -4950.00 	| deck A: -239320.00 	 | deck A:  -52000.00
 deck B:  -15000.00 	| deck B: -625400.00 	 | deck B: -114950.00
 deck C:    5250.00 	| deck C:  315750.00 	 | deck C:  102500.00
 deck D:   15950.00 	| deck D:  414405.00 	 | deck D:  101000.00
@@ -1116,16 +1119,12 @@ deck D:   15950.00 	| deck D:  414405.00 	 | deck D:  101000.00
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>choice_95 average outcome | choice_100 average outcome  | choice_150 average outcome
 -------------------------------------------------------------------------------------
+deck A:     -26.47 	  | deck A:      -31.21 	| deck A:     -27.33
+deck B:     -35.29 	  | deck B:      -40.06 	| deck B:     -25.19
+deck C:      27.06 	  | deck C:       26.47 	| deck C:      24.88
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>deck A:     -26.47 	  | deck A:      -31.21 	| deck A:     -27.33
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>deck B:     -35.29 	  | deck B:      -40.06 	| deck B:     -25.19
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>deck C:      27.06 	  | deck C:       26.47 	| deck C:      24.88
-deck D:      25.77 	  | deck D:       27.28 	| deck D:      24.54
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>deck D:      25.77 	  | deck D:       27.28 	| deck D:      24.54
 </pre></div>
 </div>
 </div>
@@ -1133,7 +1132,7 @@ deck D:      25.77 	  | deck D:       27.28 	| deck D:      24.54
 <p>For the 95 and 100 Trial Varations it appears that, at least in some of the studies, the net outcome of the bad decks are not equal. Deck B appears to be the worst deck. The 150 Trial Variation, only includes studies with Payoff Scheme 2, where the net loss appears to consistent among the bad decks.</p>
 </div>
 <div class="section" id="id7">
-<h2><span class="section-number">1.3. </span>Data Exploration<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<h2>Data Exploration<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <p><strong>How many subjects made a profit?</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1147,7 +1146,10 @@ deck D:      25.77 	  | deck D:       27.28 	| deck D:      24.54
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>95 Trial Variation:  7 subjects (or 46.67 %)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>95 Trial Variation: 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 7 subjects (or 46.67 %)
 100 Trial Variation: 208 subjects (or 41.27 %)
 150 Trial Variation: 62 subjects (or 63.27 %)
 </pre></div>
@@ -1534,7 +1536,7 @@ Correlation Coefficient: -0.7276966103723039
 <p>A clear negative correlation can be seen in the above graph between the profit/ loss made by a subject and when their Aha moment is. Subjects who have earlier Aha mometnts, tend to have better results in the IGT. While the simple function we used to determine the Aha moment could probably benefit from increased sophistication and more complex logic, the function can be used as an indication of how well a subject will perform.</p>
 </div>
 <div class="section" id="preprocessing-for-clustering">
-<h2><span class="section-number">1.4. </span>Preprocessing for Clustering<a class="headerlink" href="#preprocessing-for-clustering" title="Permalink to this headline">¶</a></h2>
+<h2>Preprocessing for Clustering<a class="headerlink" href="#preprocessing-for-clustering" title="Permalink to this headline">¶</a></h2>
 <p>Let’s combine all of the data needed for clustering into a single dataframe. We do not want to choose too many features, as the number of variables (dimensions) increases, the distance-based similarity measure, used to cluster, converges to a constant value. Thus, the higher the dimensionality, the more difficult it becomes to find strict differences between instances. To fully prepare the data, we will standardize it, to ensure all features are considered on an even playing field.</p>
 <div class="warning admonition">
 <p class="admonition-title">Caution</p>
@@ -1917,20 +1919,6 @@ Correlation Coefficient: -0.7276966103723039
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># maybe contrast payoff scheme 3 to the others</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># what is it about deck B, high % of picks despite being bad, higher highs? less frequent losses?</span>
-</pre></div>
-</div>
-</div>
-</div>
 </div>
 </div>
 
@@ -1976,7 +1964,7 @@ Correlation Coefficient: -0.7276966103723039
         <a class="right-next" href="clustering.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title"><span class="section-number">2. </span>Clustering</p>
+                <p class="prevnext-title">Clustering</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>
