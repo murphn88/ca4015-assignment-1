@@ -5,3 +5,7 @@ pandas
 pyreader
 itertools
 sklearn
+kneed
+yellowbrick
+plotly
+seaborn
