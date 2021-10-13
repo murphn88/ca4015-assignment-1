@@ -1,0 +1,410 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introduction &#8212; CA4015 IGT Clustering</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="1. Data Exploration" href="data_exploration.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/igt_img.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">CA4015 IGT Clustering</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1 current">
+  <a class="reference internal" href="#">
+   Introduction
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="data_exploration.html">
+   1. Data Exploration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="clustering.html">
+   2. Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="conclusion.html">
+   3. Conclusion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="bibliography.html">
+   4. Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/intro.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://murphn88.github.io/ca4015-assignment-1/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://murphn88.github.io/ca4015-assignment-1//issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#iowa-gambling-task-overview">
+   Iowa Gambling Task Overview
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#procedures">
+   Procedures
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-source">
+   Data Source
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="iowa-gambling-task-overview">
+<h2>Iowa Gambling Task Overview<a class="headerlink" href="#iowa-gambling-task-overview" title="Permalink to this headline">¶</a></h2>
+<p>The Iowa Gambling Task (IGT), designed by <span id="id1">Bechara <em>et al.</em> [<a class="reference internal" href="bibliography.html#id2">1994</a>]</span>, studies decision-making under uncertainty, in a context of punishment and reward. Originally physical playing cards were used, whereas nowadays, the IGT is primarily computer based. The IGT requires participants to repeatedly draw cards from four possible decks (A, B, C and D). Associated with each card picked is a monetary gain and/or loss. However, the expected values of the four decks differ, in that two of the decks (i.e. the good decks) yield lower immediate rewards but long-term overall gains, and two of the decks (i.e., the bad decks) yield higher immediate rewards but long-term overall loss. Additionally, the decks differ on two other features: the relative number of gains vs. losses (i.e., the gain frequency), and the relative number of net losses (i.e., the loss frequency). After every selection, participants receive feedback about how much money they’ve won and/or lost as a result of that selection. Participants start with a “loan” and are instructed to try to make a profit.</p>
+<p>To perform well in the IGT, participants must identify which are the good and bad decks, and choose to forgo the short-term benefits of the bad decks for the long-term benefits of the good decks. Hence, the success of a participant depends on their ability to focus on the long-term outcome. Accordingly, <span id="id2">Brand <em>et al.</em> [<a class="reference internal" href="bibliography.html#id3">2007</a>]</span> has shown that the IGT can be used as a measure of impaired decision-making in a range of psychiatric and neurological conditions.</p>
+<div class="figure align-default" id="igt-fig">
+<a class="reference internal image-reference" href="_images/igt_screenshot.jpg"><img alt="_images/igt_screenshot.jpg" src="_images/igt_screenshot.jpg" style="height: 300px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">What a participant might see</span><a class="headerlink" href="#igt-fig" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="procedures">
+<h2>Procedures<a class="headerlink" href="#procedures" title="Permalink to this headline">¶</a></h2>
+<p>The analysis conducted in this paper (book/report?) uses data collected during 10 independent published studies. All participants were deemed healthy (i.e., no known neurological impairments) and performed a computerized version of the IGT. Depending on the study, participants completed 95, 100 or 150 trials. The payoff scheme used was not consistent between IGT studies, each study was based on one of the following payoff schemes:</p>
+<ul class="simple">
+<li><p><em>Payoff Scheme 1</em> is the traditional payoff scheme, with the following features:</p>
+<ul>
+<li><p>Decks C and D are the good decks, with a net outcome of 10 cards being +250. Decks A and B are the bad decks with the net outcome of 10 cards being -250.</p></li>
+<li><p>Decks B and D have infrequent losses, while decks A and C have frequent losses.</p></li>
+<li><p>There is a fixed win within each deck.</p></li>
+<li><p>There is a variable loss in deck C of -25, -50, or -75.</p></li>
+<li><p>Fixed sequence of rewards and losses.<br />
+ </p></li>
+</ul>
+</li>
+<li><p><em>Payoff Scheme 2</em> is very similar to Payoff Scheme 1, except with the following <strong>differences</strong>:</p>
+<ul>
+<li><p>The loss in deck C is held constant at -50.</p></li>
+<li><p>Randomly shuffled sequence of rewards and losses.<br />
+ </p></li>
+</ul>
+</li>
+<li><p><em>Payoff Scheme 3</em> was first introduced by <span id="id3">Bechara and Damasio [<a class="reference internal" href="bibliography.html#id4">2002</a>]</span>. This payoff scheme has the following <strong>differences</strong> to Payoff Scheme 1:</p>
+<ul>
+<li><p>The schedules of rewards and losses change in both the good and bad decks. The net outcome of the good decks (decks C and D) increases by 25 every block of 10 cards (i.e., in the first block, the net outcome is 250, in the second it is 275, and in the sixth block it is 375). Conversely, the net outcome of the bad decks (decks A and B) decreases by 150 every block of 10 cards (i.e., in the first block, the net outcome is -250, in the second it is -400, and in the sixth block it is -1000). Thus, the good decks become gradually better, whereas the bad decks become gradually worse.</p></li>
+<li><p>The wins vary within each deck.</p></li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A detailed description of the payoff schemes can be found here (include link?).</p>
+</div>
+</div>
+<div class="section" id="data-source">
+<h2>Data Source<a class="headerlink" href="#data-source" title="Permalink to this headline">¶</a></h2>
+<p>The data used in this analysis was compiled by <span id="id4">Steingroever <em>et al.</em> [<a class="reference internal" href="bibliography.html#id15">2015</a>]</span>, and can be readily downloaded from <a class="reference external" href="https://osf.io/8t7rm/">https://osf.io/8t7rm/</a> (at time of publishing 13/010/2021). It consists of data collected from 617 participants across 10 independent IGT studies. For each participant, each deck selection and the resulting win/loss has been captured.<br />
+An overview of the studies can be seen in the below table.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p>Study</p></th>
+<th class="text-align:left head"><p>Number of Participants</p></th>
+<th class="text-align:left head"><p>Number of Trials</p></th>
+<th class="text-align:left head"><p>Payoff</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p><span id="id5">Fridberg <em>et al.</em> [<a class="reference internal" href="bibliography.html#id5">2010</a>]</span></p></td>
+<td class="text-align:left"><p>15</p></td>
+<td class="text-align:left"><p>95</p></td>
+<td class="text-align:left"><p>1</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p><span id="id6">Steingroever <em>et al.</em> [<a class="reference internal" href="bibliography.html#id6">2013</a>]</span></p></td>
+<td class="text-align:left"><p>162</p></td>
+<td class="text-align:left"><p>100</p></td>
+<td class="text-align:left"><p>2</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p><span id="id7">Maia and Mcclelland [<a class="reference internal" href="bibliography.html#id7">2004</a>]</span></p></td>
+<td class="text-align:left"><p>19</p></td>
+<td class="text-align:left"><p>100</p></td>
+<td class="text-align:left"><p>3</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p><span id="id8">Kjome <em>et al.</em> [<a class="reference internal" href="bibliography.html#id8">2010</a>]</span></p></td>
+<td class="text-align:left"><p>40</p></td>
+<td class="text-align:left"><p>100</p></td>
+<td class="text-align:left"><p>1</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p><span id="id9">Premkumar <em>et al.</em> [<a class="reference internal" href="bibliography.html#id9">2008</a>]</span></p></td>
+<td class="text-align:left"><p>25</p></td>
+<td class="text-align:left"><p>100</p></td>
+<td class="text-align:left"><p>3</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p><span id="id10">Steingroever <em>et al.</em> [<a class="reference internal" href="bibliography.html#id10">inprep</a>]</span></p></td>
+<td class="text-align:left"><p>70</p></td>
+<td class="text-align:left"><p>100</p></td>
+<td class="text-align:left"><p>2</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p><span id="id11">Steingroever <em>et al.</em> [<a class="reference internal" href="bibliography.html#id11">2011</a>]</span></p></td>
+<td class="text-align:left"><p>57</p></td>
+<td class="text-align:left"><p>150</p></td>
+<td class="text-align:left"><p>2</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p><span id="id12">Wetzels <em>et al.</em> [<a class="reference internal" href="bibliography.html#id12">2010</a>]</span></p></td>
+<td class="text-align:left"><p>41</p></td>
+<td class="text-align:left"><p>150</p></td>
+<td class="text-align:left"><p>2</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p><span id="id13">Wood <em>et al.</em> [<a class="reference internal" href="bibliography.html#id13">2005</a>]</span></p></td>
+<td class="text-align:left"><p>153</p></td>
+<td class="text-align:left"><p>100</p></td>
+<td class="text-align:left"><p>3</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p><span id="id14">Worthy <em>et al.</em> [<a class="reference internal" href="bibliography.html#id14">2013</a>]</span></p></td>
+<td class="text-align:left"><p>35</p></td>
+<td class="text-align:left"><p>100</p></td>
+<td class="text-align:left"><p>1</p></td>
+</tr>
+</tbody>
+</table>
+<div class="warning admonition">
+<p class="admonition-title">Caveat</p>
+<p>As each of the studies were conducted in different environments, inconsistent factors such as compensation methods, incentives, and instructions received may have affected the performance of participants.</p>
+</div>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+     <div id="next">
+        <a class="right-next" href="data_exploration.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title"><span class="section-number">1. </span>Data Exploration</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By Niamh Murphy<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>

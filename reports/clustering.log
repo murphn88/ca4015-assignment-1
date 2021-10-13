@@ -1,0 +1,35 @@
+Traceback (most recent call last):
+  File "/home/niamh/anaconda3/envs/jupbook/lib/python3.7/site-packages/jupyter_cache/executors/utils.py", line 56, in single_nb_execution
+    record_timing=False,
+  File "/home/niamh/anaconda3/envs/jupbook/lib/python3.7/site-packages/nbclient/client.py", line 1117, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/home/niamh/anaconda3/envs/jupbook/lib/python3.7/site-packages/nbclient/util.py", line 78, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/home/niamh/anaconda3/envs/jupbook/lib/python3.7/site-packages/nbclient/util.py", line 57, in just_run
+    return loop.run_until_complete(coro)
+  File "/home/niamh/anaconda3/envs/jupbook/lib/python3.7/asyncio/base_events.py", line 587, in run_until_complete
+    return future.result()
+  File "/home/niamh/anaconda3/envs/jupbook/lib/python3.7/site-packages/nbclient/client.py", line 559, in async_execute
+    cell, index, execution_count=self.code_cells_executed + 1
+  File "/home/niamh/anaconda3/envs/jupbook/lib/python3.7/site-packages/nbclient/client.py", line 862, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "/home/niamh/anaconda3/envs/jupbook/lib/python3.7/site-packages/nbclient/client.py", line 765, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+kmeans_orig = KMeans(n_clusters=4, n_init=100, max_iter=400, init='k-means++', random_state=42).fit(processed_df.iloc[:,2:])
+print('KMeans Scaled Silhouette Score: {}'.format(silhouette_score(processed_df.iloc[:,2:], kmeans_orig.labels_, metric='euclidean')))
+labels_orig = kmeans_orig.labels_
+clusters_orig = pd.concat([processed_df.iloc[:,2:], pd.DataFrame({'cluster':labels_scale}, index=processed_df.index)], axis=1)
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+[0;32m/tmp/ipykernel_5660/573021355.py[0m in [0;36m<module>[0;34m[0m
+[1;32m      2[0m [0mprint[0m[0;34m([0m[0;34m'KMeans Scaled Silhouette Score: {}'[0m[0;34m.[0m[0mformat[0m[0;34m([0m[0msilhouette_score[0m[0;34m([0m[0mprocessed_df[0m[0;34m.[0m[0miloc[0m[0;34m[[0m[0;34m:[0m[0;34m,[0m[0;36m2[0m[0;34m:[0m[0;34m][0m[0;34m,[0m [0mkmeans_orig[0m[0;34m.[0m[0mlabels_[0m[0;34m,[0m [0mmetric[0m[0;34m=[0m[0;34m'euclidean'[0m[0;34m)[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      3[0m [0mlabels_orig[0m [0;34m=[0m [0mkmeans_orig[0m[0;34m.[0m[0mlabels_[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 4[0;31m [0mclusters_orig[0m [0;34m=[0m [0mpd[0m[0;34m.[0m[0mconcat[0m[0;34m([0m[0;34m[[0m[0mprocessed_df[0m[0;34m.[0m[0miloc[0m[0;34m[[0m[0;34m:[0m[0;34m,[0m[0;36m2[0m[0;34m:[0m[0;34m][0m[0;34m,[0m [0mpd[0m[0;34m.[0m[0mDataFrame[0m[0;34m([0m[0;34m{[0m[0;34m'cluster'[0m[0;34m:[0m[0mlabels_scale[0m[0;34m}[0m[0;34m,[0m [0mindex[0m[0;34m=[0m[0mprocessed_df[0m[0;34m.[0m[0mindex[0m[0;34m)[0m[0;34m][0m[0;34m,[0m [0maxis[0m[0;34m=[0m[0;36m1[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m
+[0;31mNameError[0m: name 'labels_scale' is not defined
+NameError: name 'labels_scale' is not defined
+
