@@ -125,13 +125,13 @@ intercluster_distance(kmeans,
                       random_state=12) # other option for embedding 'tsne'
 
 
-# ## KMeans on Original Dataset
+# ## KMeans on Current Dataset
 
 # In[8]:
 
 
 kmeans_orig = KMeans(n_clusters=4, n_init=100, max_iter=400, init='k-means++', random_state=42).fit(processed_df.iloc[:,2:])
-print('KMeans Scaled Silhouette Score: {}'.format(silhouette_score(processed_df.iloc[:,2:], kmeans_orig.labels_, metric='euclidean')))
+print('KMeans Silhouette Score: {}'.format(silhouette_score(processed_df.iloc[:,2:], kmeans_orig.labels_, metric='euclidean')))
 labels_orig = kmeans_orig.labels_
 clusters_orig = pd.concat([processed_df.iloc[:,2:], pd.DataFrame({'cluster':labels_scale}, index=processed_df.index)], axis=1)
 

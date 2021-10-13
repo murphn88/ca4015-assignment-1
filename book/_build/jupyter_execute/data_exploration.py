@@ -93,7 +93,7 @@ data['index_150'].head()
 
 #  
 
-# **Verify table 1 (include link  to it).** <br> {cite:t}`Steingroever_Fridberg_Horstmann_Kjome_Kumari_Lane_Maia_McClelland_Pachur_Premkumar` speculates that the sample size may be less than 617 due to "missing data for one participant in {cite:t}`kjome_lane_schmitz_green_ma_prasla_swann_moeller_2010`, and for two participants in {cite:t}`Wood_Busemeyer_Koling_Cox_Davis_2005`". According to table 1 (link again), there should be 19 participants in {cite:t}`kjome_lane_schmitz_green_ma_prasla_swann_moeller_2010` and 153 in {cite:t}`Wood_Busemeyer_Koling_Cox_Davis_2005`.
+# **Verify Sample Size.** <br> {cite:t}`Steingroever_Fridberg_Horstmann_Kjome_Kumari_Lane_Maia_McClelland_Pachur_Premkumar` speculates that the sample size may be less than 617 due to "missing data for one participant in {cite:t}`kjome_lane_schmitz_green_ma_prasla_swann_moeller_2010`, and for two participants in {cite:t}`Wood_Busemeyer_Koling_Cox_Davis_2005`". According to {cite:t}`Steingroever_Fridberg_Horstmann_Kjome_Kumari_Lane_Maia_McClelland_Pachur_Premkumar`, there should be 19 participants in {cite:t}`kjome_lane_schmitz_green_ma_prasla_swann_moeller_2010` and 153 in {cite:t}`Wood_Busemeyer_Koling_Cox_Davis_2005`.
 
 # In[6]:
 
@@ -193,11 +193,31 @@ for i in range (1,5):
 
 # Decks A and B have negative net outcomes, while decks C and D have positive net outcome. Thus, confiriming that C and D are the good decks.
 
+# **Check the average outcome for each deck**
+
+# In[13]:
+
+
+print("{:} | {:}  | {:}".format('choice_95 average outcome', 'choice_100 average outcome', 'choice_150 average outcome'))
+print('-' * 85)
+
+decks = ['A', 'B', 'C', 'D']
+for i in range (1,5):
+    deck = decks[i-1]
+    avg_out_95 = net_95[data['choice_95'].isin([i])].fillna(0).values.sum() / data['choice_95'].stack().value_counts().sort_index()[i]
+    avg_out_100 = net_100[data['choice_100'].isin([i])].fillna(0).values.sum() / data['choice_100'].stack().value_counts().sort_index()[i]
+    avg_out_150 = net_150[data['choice_150'].isin([i])].fillna(0).values.sum() / data['choice_150'].stack().value_counts().sort_index()[i]
+
+    print("deck {:}: {:10.2f} \t  | deck {:}: {:11.2f} \t| deck {:}: {:10.2f}".format(deck, avg_out_95, deck, avg_out_100, deck, avg_out_150))
+
+
+# For the 95 and 100 Trial Varations it appears that, at least in some of the studies, the net outcome of the bad decks are not equal. Deck B appears to be the worst deck. The 150 Trial Variation, only includes studies with Payoff Scheme 2, where the net loss appears to consistent among the bad decks.
+
 # ## Data Exploration
 
 # **How many subjects made a profit?**
 
-# In[13]:
+# In[14]:
 
 
 profiters_95 = len(cum_out_95.loc[cum_out_95.Trial_95 > 0])
@@ -214,7 +234,7 @@ print('150 Trial Variation:', profiters_150, 'subjects (or',round(profiters_150 
 
 # Produce a graph that shows the frequency of the good and bad decks over the course of the game. To do this, compute the frequency for a rolling group of 10 trials, i.e. calculate the frequency the of the subset of the 10 previous choices.
 
-# In[14]:
+# In[15]:
 
 
 grouped_choices = {}
@@ -226,7 +246,7 @@ for key, value in data.items():
 grouped_choices['deck4_choice_150'].head()
 
 
-# In[15]:
+# In[16]:
 
 
 grouped_keys = list(grouped_choices.keys())
@@ -253,7 +273,7 @@ for i in range(0,3):
 
 # **Let's look at an individual plot for a good & bad subject.**
 
-# In[16]:
+# In[17]:
 
 
 good_player = cum_out_100['Trial_100'].idxmax()
@@ -293,7 +313,7 @@ plt.show()
 
 # **Try to identify, when, if at all, a subject recognizes the good decks.**
 
-# In[17]:
+# In[18]:
 
 
 player = 'Subj_188'
@@ -317,7 +337,7 @@ plt.show()
 # The green line overtakes the red line, and stays on top, at the 46 trial mark. So, from the 35th trial onwards (remember we're working with rolling groups of 10), this subject chooses more form the good decks, than the bad decks. In fact, this subject develops a complete aversion after 35 trials.  
 # Let's write a function to extract the circled point, the point where the green line overtakes the red line and remains on top. If the point doesn't exist (i.e., the green line isn't above the red line at the end), we'll choose the last point across all variations (i.e., the number of the last trial, which is 150).
 
-# In[18]:
+# In[19]:
 
 
 trial_variations = ['95', '100', '150']
@@ -342,7 +362,7 @@ for i in range(0,3):
 
 # **Check the function**
 
-# In[19]:
+# In[20]:
 
 
 player = 'Subj_89'
@@ -365,103 +385,141 @@ plt.show()
 
 # Works as expected.
 
-# **Redefine aha_moment as the trial from which the subsequent majority of choices are good.**  
+# **Redefine Aha moment as the trial from which the subsequent majority of choices are good.**  
 
-# In[20]:
+# In[21]:
 
 
 aha_moments = [aha_moment - 9 for aha_moment in aha_moments]
 
 
-# ## Preprocessing for Clustering
-
-# **Reduce dimensionality**
-
-# As the number of variables (dimensions) increases, the distance-based similarity measure converges to a constant value. Thus, the higher the dimensionality, the more difficult it becomes to find strict differences between instances.
-
-# In[21]:
-
-
-# dataframe for each subject with the frequency of good decks chosen
-
-deck3_95 = data['choice_95'][data['choice_95'] == 3].count(1) / 95
-deck4_95 = data['choice_95'][data['choice_95'] == 4].count(1) / 95
-goodfreq_95 = deck3_95 + deck4_95
-
-deck3_100 = data['choice_100'][data['choice_100'] == 3].count(1) / 100
-deck4_100 = data['choice_100'][data['choice_100'] == 4].count(1) / 100
-goodfreq_100 = deck3_100 + deck4_100
-
-
-deck3_150 = data['choice_150'][data['choice_150'] == 3].count(1) / 150
-deck4_150 = data['choice_150'][data['choice_150'] == 4].count(1) / 150
-goodfreq_150 = deck3_150 + deck4_150
-
-goodfreq_100.head()
-
+# **Investigate correlation between Aha moment and profit/loss.**
 
 # In[22]:
 
 
-reduced_95 = pd.concat([data['index_95']['Study'], data['index_95']['PayScheme'], pd.DataFrame([95] * len(cum_out_95), index = cum_out_95.index), goodfreq_95, aha_moments[0], cum_out_95['Trial_95'], cum_out_95['Trial_95']], axis=1)
-reduced_95.columns = ['Study', 'PayScheme', 'Trials', 'FreqGoodDecks', 'AhaMoment', 'CumOutTrial95', 'NetOut']
+plt.plot(aha_moments[1],cum_out_100['Trial_100'],'o', color = 'lightgreen', label = '100 Trial Variation')
+plt.plot(aha_moments[0],cum_out_95['Trial_95'],'o', color = 'coral', label = '95 Trial Variation')
+plt.plot(aha_moments[2],cum_out_150['Trial_150'],'o', color = 'mediumpurple', label = '150 Trial Variation')
+plt.legend()
+plt.xlabel('Aha Moment', fontsize = 14)
+plt.ylabel('Profit/ Loss', fontsize = 14)
+plt.grid()
+plt.show()
 
-reduced_100 = pd.concat([data['index_100']['Study'], data['index_100']['PayScheme'], pd.DataFrame([100] * len(cum_out_100), index = cum_out_100.index), goodfreq_100, aha_moments[1], cum_out_100['Trial_95'], cum_out_100['Trial_100']], axis=1)
-reduced_100.columns = ['Study', 'PayScheme', 'Trials', 'FreqGoodDecks', 'AhaMoment', 'CumOutTrial95', 'NetOut']
-
-reduced_150 = pd.concat([data['index_150']['Study'], data['index_150']['PayScheme'], pd.DataFrame([150] * len(cum_out_150), index = cum_out_150.index), goodfreq_150, aha_moments[2], cum_out_150['Trial_95'], cum_out_150['Trial_150']], axis=1)
-reduced_150.columns = ['Study', 'PayScheme', 'Trials', 'FreqGoodDecks', 'AhaMoment', 'CumOutTrial95', 'NetOut']
-
-reduced = pd.concat([reduced_95, reduced_100, reduced_150], axis=0)
-reduced
-
-
-# ```{admonition} Caution
-# :class: warning
-# We cannot use the k-means clustering algorithm on the 'Study' and 'PayScheme' columns, as they are categorical variables. If we were to cluster on 'PayScheme', for example, k-means would assume that schemes 2 and 3 are more similar than schemes 1 and 3, so we cannot simply convert these feautures into numerical features.
-# ```
-
-# **Standardization**
-
-# Standardization is an important preprocessing step, prior to running the k-means algorithm, as it is a distance-based algorithm. It involves shifting the scales of each feature, so that the values for each feautre have a mean of 0 and a standard deviation of 1.
 
 # In[23]:
 
 
-scaled = StandardScaler().fit_transform(reduced.iloc[:,2:])
-scaled = pd.DataFrame(scaled, index = reduced.index, columns = reduced.columns.tolist()[2:])
-scaled = pd.concat([reduced.iloc[:,:2], pd.DataFrame(scaled)], axis=1)
-scaled
+print('Correlation Coefficient:', np.corrcoef(aha_moments[0].AhaMoment.tolist(), cum_out_95['Trial_95'].tolist())[0][1])
+print('Correlation Coefficient:', np.corrcoef(aha_moments[1].AhaMoment.tolist(), cum_out_100['Trial_100'].tolist())[0][1])
+print('Correlation Coefficient:', np.corrcoef(aha_moments[2].AhaMoment.tolist(), cum_out_150['Trial_150'].tolist())[0][1])
 
 
-# **Save dataframe for clustering**
+# A clear negative correlation can be seen in the above graph between the profit/ loss made by a subject and when their Aha moment is. Subjects who have earlier Aha mometnts, tend to have better results in the IGT. While the simple function we used to determine the Aha moment could probably benefit from increased sophistication and more complex logic, the function can be used as an indication of how well a subject will perform.
+
+# ## Preprocessing for Clustering
+
+# Let's combine all of the data needed for clustering into a single dataframe. We do not want to choose too many features, as the number of variables (dimensions) increases, the distance-based similarity measure, used to cluster, converges to a constant value. Thus, the higher the dimensionality, the more difficult it becomes to find strict differences between instances. To fully prepare the data, we will standardize it, to ensure all features are considered on an even playing field. 
+
+# ```{admonition} Caution
+# :class: warning
+# We cannot use the k-means clustering algorithm on categorical variables, such as study or payoff scheme. Additionally, we cannot can simply convert these feautures into numerical features, as if we attempted to cluster on 'PayScheme', for example, k-means would assume that schemes 2 and 3 are more similar than schemes 1 and 3.
+# ```
+
+# **Feature Concatenation.**
 
 # In[24]:
 
 
-scaled.to_csv('../data/processed.csv')
+# frequency of each deck chosen per subject
 
+deck1_95 = data['choice_95'][data['choice_95'] == 1].count(1) / 95
+deck2_95 = data['choice_95'][data['choice_95'] == 2].count(1) / 95
+deck3_95 = data['choice_95'][data['choice_95'] == 3].count(1) / 95
+deck4_95 = data['choice_95'][data['choice_95'] == 4].count(1) / 95
+goodfreq_95 = deck3_95 + deck4_95
 
-# In[ ]:
+deck1_100 = data['choice_100'][data['choice_100'] == 1].count(1) / 100
+deck2_100 = data['choice_100'][data['choice_100'] == 2].count(1) / 100
+deck3_100 = data['choice_100'][data['choice_100'] == 3].count(1) / 100
+deck4_100 = data['choice_100'][data['choice_100'] == 4].count(1) / 100
+goodfreq_100 = deck3_100 + deck4_100
 
-
-
+deck1_150 = data['choice_150'][data['choice_150'] == 1].count(1) / 150
+deck2_150 = data['choice_150'][data['choice_150'] == 2].count(1) / 150
+deck3_150 = data['choice_150'][data['choice_150'] == 3].count(1) / 150
+deck4_150 = data['choice_150'][data['choice_150'] == 4].count(1) / 150
+goodfreq_150 = deck3_150 + deck4_150
 
 
 # In[25]:
 
 
-# maybe contrast payoff scheme 3 to the others
+prepared_95 = pd.concat([deck1_95, deck2_95, deck3_95, deck4_95, goodfreq_95, aha_moments[0], cum_out_95['Trial_95'], cum_out_95['Trial_95']], axis=1)
+prepared_100 = pd.concat([deck1_100, deck2_100, deck4_100, deck4_100, goodfreq_100, aha_moments[1], cum_out_100['Trial_95'], cum_out_100['Trial_100']], axis=1)
+prepared_150 = pd.concat([deck1_150, deck2_150, deck3_150, deck4_150, goodfreq_150, aha_moments[2], cum_out_150['Trial_95'], cum_out_150['Trial_150']], axis=1)
 
+prepared = pd.DataFrame(np.concatenate((prepared_95.values, prepared_100.values, prepared_150), axis=0))
+prepared.columns = ['Freq1Deck1', 'Freq1Deck2', 'Freq1Deck3', 'Freq1Deck4', 'FreqGoodDecks', 'AhaMoment', 'CumOutTrial95', 'NetOut']
+prepared
+
+
+# **Standardization**
+
+# Standardization is an important preprocessing step, prior to running the k-means algorithm, as it is a distance-based algorithm. It involves shifting the scales of each feature, so that the values for each feautre have a mean of 0 and a standard deviation of 1. Our dataset contains features with different scales or ranges. If we skipped this step of standardization, the clustering algorithm would not give equal importance to all features, e.g. NetOut would be considered much more important than FreqGoodDecks, as FreqGoodDecks ranges from 0 to 1, and NetOut is often in the thousands.
 
 # In[26]:
 
 
-# what is it about deck B, high % of picks despite being bad, higher highs? less frequent losses?
+scaled = StandardScaler().fit_transform(prepared)
+scaled = pd.DataFrame(scaled, index = prepared.index, columns = prepared.columns)
+scaled
+
+
+# **Save dataframe**
+
+# Add Study and Payoff Scheme features, as we will want to reference them in the next section.
+
+# In[27]:
+
+
+study_scheme = pd.concat([pd.concat([data['index_95']['Study'], data['index_95']['PayScheme']], axis=1), pd.concat([data['index_100']['Study'], data['index_100']['PayScheme']], axis=1), pd.concat([data['index_150']['Study'], data['index_150']['PayScheme']], axis=1)], axis=0).reset_index(drop=True)
+processed = pd.concat([study_scheme, scaled], axis=1)
+
+
+# In[28]:
+
+
+processed.to_csv('../data/processed.csv')
 
 
 # In[ ]:
 
 
 
+
+
+# In[ ]:
+
+
+
+
+
+# In[29]:
+
+
+# maybe contrast payoff scheme 3 to the others
+
+
+# In[ ]:
+
+
+
+
+
+# In[30]:
+
+
+# what is it about deck B, high % of picks despite being bad, higher highs? less frequent losses?
 

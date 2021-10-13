@@ -231,8 +231,8 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#kmeans-on-original-dataset">
-   2.4. KMeans on Original Dataset
+  <a class="reference internal nav-link" href="#kmeans-on-current-dataset">
+   2.4. KMeans on Current Dataset
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -505,25 +505,25 @@ Where:</p>
 </div>
 </div>
 </div>
-<div class="section" id="kmeans-on-original-dataset">
-<h2><span class="section-number">2.4. </span>KMeans on Original Dataset<a class="headerlink" href="#kmeans-on-original-dataset" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="kmeans-on-current-dataset">
+<h2><span class="section-number">2.4. </span>KMeans on Current Dataset<a class="headerlink" href="#kmeans-on-current-dataset" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kmeans_orig</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s1">&#39;k-means++&#39;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">processed_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;KMeans Scaled Silhouette Score: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">silhouette_score</span><span class="p">(</span><span class="n">processed_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:],</span> <span class="n">kmeans_orig</span><span class="o">.</span><span class="n">labels_</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;KMeans Silhouette Score: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">silhouette_score</span><span class="p">(</span><span class="n">processed_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:],</span> <span class="n">kmeans_orig</span><span class="o">.</span><span class="n">labels_</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)))</span>
 <span class="n">labels_orig</span> <span class="o">=</span> <span class="n">kmeans_orig</span><span class="o">.</span><span class="n">labels_</span>
 <span class="n">clusters_orig</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">processed_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:],</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;cluster&#39;</span><span class="p">:</span><span class="n">labels_scale</span><span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="n">processed_df</span><span class="o">.</span><span class="n">index</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KMeans Scaled Silhouette Score: 0.3220845845585689
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KMeans Silhouette Score: 0.3220845845585689
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_5660</span><span class="o">/</span><span class="mf">573021355.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;KMeans Scaled Silhouette Score: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">silhouette_score</span><span class="p">(</span><span class="n">processed_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:],</span> <span class="n">kmeans_orig</span><span class="o">.</span><span class="n">labels_</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)))</span>
+<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_6325</span><span class="o">/</span><span class="mf">2260574299.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;KMeans Silhouette Score: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">silhouette_score</span><span class="p">(</span><span class="n">processed_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:],</span> <span class="n">kmeans_orig</span><span class="o">.</span><span class="n">labels_</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)))</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">labels_orig</span> <span class="o">=</span> <span class="n">kmeans_orig</span><span class="o">.</span><span class="n">labels_</span>
 <span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">clusters_orig</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">processed_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:],</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;cluster&#39;</span><span class="p">:</span><span class="n">labels_scale</span><span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="n">processed_df</span><span class="o">.</span><span class="n">index</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
