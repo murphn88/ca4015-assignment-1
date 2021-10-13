@@ -493,33 +493,3 @@ processed = pd.concat([study_scheme, scaled], axis=1)
 
 processed.to_csv('../data/processed.csv')
 
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[29]:
-
-
-# maybe contrast payoff scheme 3 to the others
-
-
-# In[ ]:
-
-
-
-
-
-# In[30]:
-
-
-# what is it about deck B, high % of picks despite being bad, higher highs? less frequent losses?
-

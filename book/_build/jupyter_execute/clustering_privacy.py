@@ -113,7 +113,7 @@ centroids_curr = pd.DataFrame(kmeans_comb.cluster_centers_)
 centroids_curr.head()
 
 
-# **Comments**
+# **Comments**  
 # This is a very simplistic approach to perservinig privacy through K-means. A more sophisticated approach would likely give a weighting to how many datapoints are in each cluster. It would also iterate through each of the studies multiple times, each time adjusting the clusters based on the centroids from the other studies.
 
 # In[ ]:

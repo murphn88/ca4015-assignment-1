@@ -11,12 +11,12 @@ To perform well in the IGT, participants must identify which are the good and ba
 height: 300px
 name: igt-fig
 ---
-What a participant might see
+Screenshot of a computerized IGT
 ```
 
 ## Procedures
 
-The analysis conducted in this paper (book/report?) uses data collected during 10 independent published studies. All participants were deemed healthy (i.e., no known neurological impairments) and performed a computerized version of the IGT. Depending on the study, participants completed 95, 100 or 150 trials. The payoff scheme used was not consistent between IGT studies, each study was based on one of the following payoff schemes:
+The analysis conducted in this report uses data collected during 10 independent published studies. All participants were deemed healthy (i.e., no known neurological impairments) and performed a computerized version of the IGT. Depending on the study, participants completed 95, 100 or 150 trials. The payoff scheme used was not consistent between IGT studies, each study was based on one of the following payoff schemes:
 
 * *Payoff Scheme 1* is the traditional payoff scheme, with the following features:
 	* Decks C and D are the good decks, with a net outcome of 10 cards being +250. Decks A and B are the bad decks with the net outcome of 10 cards being -250.
@@ -32,9 +32,6 @@ The analysis conducted in this paper (book/report?) uses data collected during 1
 * *Payoff Scheme 3* was first introduced by {cite:t}`bechara_damasio_2002`. This payoff scheme has the following **differences** to Payoff Scheme 1:
 	* The schedules of rewards and losses change in both the good and bad decks. The net outcome of the good decks (decks C and D) increases by 25 every block of 10 cards (i.e., in the first block, the net outcome is 250, in the second it is 275, and in the sixth block it is 375). Conversely, the net outcome of the bad decks (decks A and B) decreases by 150 every block of 10 cards (i.e., in the first block, the net outcome is -250, in the second it is -400, and in the sixth block it is -1000). Thus, the good decks become gradually better, whereas the bad decks become gradually worse.
 	* The wins vary within each deck.  
-:::{note}
-A detailed description of the payoff schemes can be found here (include link?).
-:::
 
 
 ## Data Source
