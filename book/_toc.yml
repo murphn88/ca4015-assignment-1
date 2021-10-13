@@ -3,11 +3,10 @@
 
 format: jb-book
 root: intro
-options:
-  numbered: true
 chapters:
 - file: data_exploration
 - file: clustering
+- file: clustering_privacy
 - file: conclusion
 - file: bibliography
 

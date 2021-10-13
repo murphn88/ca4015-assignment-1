@@ -67,7 +67,7 @@ scaled = processed_df.iloc[:,2:]
 #   WSS   = \sum _{i=1}^{n_{c}}{\sum _{x\in{ci}}  \left( x, \bar{x_{ci}}\right)^2 }, 
 # $$ (wss)
 
-#  where, $$ {c_{i} = Cluser}$$,  $${n_{c} = NumberOfClusters} $$,  $${\bar{x_{ci}} = ClusterCentroid}$$ 
+#  where, ${c_{i} = Cluster}$$,  $${n_{c} = NumberOfClusters} $$,  $${\bar{x_{ci}} = ClusterCentroid}$ 
 
 #  3. Plot WSS against k.
 #  4. Identify the knee in the plot as the optimal k.
@@ -207,6 +207,7 @@ plt.show()
 pca = PCA(n_components=3)
 pca_scale = pca.fit_transform(scaled)
 pca_df = pd.DataFrame(pca_scale, columns=['pc1','pc2','pc3'])
+pca_df.to_csv('../data/pca_components.csv')
 pca_df.head()
 
 
@@ -277,6 +278,8 @@ plt.show()
 kmeans_pca = KMeans(n_clusters=4, n_init=100, max_iter=400, init='k-means++', random_state=42).fit(pca_df)
 labels_pca = kmeans_pca.labels_
 clusters_pca = pd.concat([pca_df, pd.DataFrame({'pca_clusters':labels_pca})], axis=1)
+centroids_whole_dataset = kmeans_pca.cluster_centers_
+pd.DataFrame(centroids_whole_dataset).to_csv('../data/centroids_entire.csv')
 
 
 # **Visualize the Clusters**
@@ -313,4 +316,10 @@ plt.legend()
 plt.show()
 
 
-# There doesn't appear to be any correlation between the clusers and what study the subjects were apart of. Similarly, there's no apparent relationship between the clusters and they payoff scheme applicable to the subject. This suggests, for this group of studies, that a subject's performance in the IGT is not affected by what study they partook in. Study organizers appear to have sucessfully conducted unbiased trials. Therefore, I would not object to this combinations of trials being grouped together and used as a control group for future analysis.
+# There doesn't appear to be any correlation between the clusers and what study the subjects were apart of. Similarly, there's no apparent relationship between the clusters and the payoff scheme applicable to the subject. This suggests, for this group of studies, that a subject's performance in the IGT is not affected by what study they partook in. Study organizers appear to have sucessfully conducted unbiased trials. Therefore, I would not object to this combinations of trials being grouped together and used as a control group for future analysis.
+
+# In[ ]:
+
+
+
+
